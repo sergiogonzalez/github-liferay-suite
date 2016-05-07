@@ -1,5 +1,6 @@
 package com.liferay.login.authentication.github.web.internal.portlet.action;
 
+import com.liferay.login.authentication.github.web.internal.constants.GitHubLoginConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.LiferayWindowState;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
@@ -34,7 +35,8 @@ import org.osgi.service.component.annotations.Reference;
  * @author Sergio González
  */
 @Component(
-	immediate = true, property = {"path=/portal/github_login"},
+	immediate = true,
+	property = {"path=" + GitHubLoginConstants.GITHUB_LOGIN_URL},
 	service = StrutsAction.class
 )
 public class GitHubLoginAction extends BaseStrutsAction {
@@ -55,7 +57,7 @@ public class GitHubLoginAction extends BaseStrutsAction {
 
 		String cmd = ParamUtil.getString(request, Constants.CMD);
 
-		if (cmd.equals("login")) {
+		if (cmd.equals(GitHubLoginConstants.CMD_LOGIN)) {
 			String returnRequestUri = getReturnRequestUri(request);
 
 			String loginRedirect = _gitHubAuthorization.getLoginRedirect(
@@ -63,7 +65,7 @@ public class GitHubLoginAction extends BaseStrutsAction {
 
 			response.sendRedirect(loginRedirect);
 		}
-		else if (cmd.equals("token")) {
+		else if (cmd.equals(GitHubLoginConstants.CMD_TOKEN)) {
 			HttpSession session = request.getSession();
 
 			String authorizationCode = ParamUtil.getString(request, "code");
@@ -159,7 +161,8 @@ public class GitHubLoginAction extends BaseStrutsAction {
 	}
 
 	private static final String _REDIRECT_URI =
-		"/portal/github_login?cmd=token";
+		GitHubLoginConstants.GITHUB_LOGIN_URL + "?cmd=" +
+			GitHubLoginConstants.CMD_TOKEN;
 
 	private static final List<String> _scopesLogin = Arrays.asList("user");
 
