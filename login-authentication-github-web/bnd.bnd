@@ -1,0 +1,4 @@
+Bundle-Name: Liferay Login Authentication GitHub Web
+Bundle-SymbolicName: com.liferay.login.authentication.github.web
+Bundle-Version: 1.0.0
+Web-ContextPath: /login-authentication-github-web
