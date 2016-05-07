@@ -14,7 +14,7 @@ GitHub requires some additional steps before applications can consume their APIs
 
 * Once the application is registered, you can view the credentials `Client ID` and `Client Secret`. Those credentials will be necessary when configuring [Portal Security SSO GitHub](https://github.com/sergiogonzalez/github-liferay-suite/tree/master/portal-security-sso-github). 
 
-![Creating a GitHub Application](/readme_images/creating_a_github_application.jpg "Configure Google App")
+![Creating a GitHub Application](readme_images/creating_a_github_application.jpg "Configure Google App")
 
 ## How it works?
 
