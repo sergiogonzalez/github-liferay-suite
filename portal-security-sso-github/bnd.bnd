@@ -1,0 +1,10 @@
+Bundle-Name: Liferay Portal Security SSO GitHub
+Bundle-SymbolicName: com.liferay.portal.security.sso.github
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.liferay.portal.security.sso.github,\
+	com.liferay.portal.security.sso.github.configuration,\
+	com.liferay.portal.security.sso.github.constants
+-liferay-includeresource:\
+	@org.eclipse.egit.github.core-*.jar,\
+	@gson-*.jar,\
