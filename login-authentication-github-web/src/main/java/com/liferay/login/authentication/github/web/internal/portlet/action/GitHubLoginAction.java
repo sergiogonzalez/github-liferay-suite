@@ -71,8 +71,13 @@ public class GitHubLoginAction extends BaseStrutsAction {
 			String authorizationCode = ParamUtil.getString(request, "code");
 
 			if (Validator.isNotNull(authorizationCode)) {
+				String accessToken = _gitHubAuthorization.getAccessToken(
+					authorizationCode);
+
+				_gitHubAuthorization.saveAccessToken(accessToken, session);
+
 				User user = _gitHubAuthorization.addOrUpdateUser(
-					session, themeDisplay.getCompanyId(), authorizationCode);
+					session, themeDisplay.getCompanyId(), accessToken);
 
 				if ((user != null) &&
 					(user.getStatus() == WorkflowConstants.STATUS_INCOMPLETE)) {

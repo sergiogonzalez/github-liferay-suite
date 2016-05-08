@@ -47,10 +47,8 @@ public class GitHubAuthorizationImpl implements GitHubAuthorization {
 
 	@Override
 	public User addOrUpdateUser(
-			HttpSession session, long companyId, String authorizationCode)
+			HttpSession session, long companyId, String accessToken)
 		throws Exception {
-
-		String accessToken = getAccessToken(authorizationCode, session);
 
 		GitHubClient gitHubClient = new GitHubClient();
 
@@ -64,7 +62,7 @@ public class GitHubAuthorizationImpl implements GitHubAuthorization {
 	}
 
 	@Override
-	public String getAccessToken(String code, HttpSession session) {
+	public String getAccessToken(String code) {
 		String url = HttpUtil.addParameter(
 			"https://github.com/login/oauth/access_token", "client_id",
 			_gitHubAuthorizationConfiguration.clientId());
@@ -131,6 +129,9 @@ public class GitHubAuthorizationImpl implements GitHubAuthorization {
 		}
 
 		return _gitHubAuthorizationConfiguration.enabled();
+	}
+
+	public void saveAccessToken(String accessToken, HttpSession session) {
 	}
 
 	@Activate

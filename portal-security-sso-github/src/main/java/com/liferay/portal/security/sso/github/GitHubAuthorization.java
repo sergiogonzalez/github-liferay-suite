@@ -12,14 +12,16 @@ import javax.servlet.http.HttpSession;
 public interface GitHubAuthorization {
 
 	public User addOrUpdateUser(
-			HttpSession session, long companyId, String authorizationCode)
+			HttpSession session, long companyId, String accessToken)
 		throws Exception;
 
-	public String getAccessToken(String code, HttpSession session);
+	public String getAccessToken(String code);
 
 	public String getLoginRedirect(String returnRequestUri, List<String> scopes)
 		throws Exception;
 
 	public boolean isEnabled();
+
+	public void saveAccessToken(String accessToken, HttpSession session);
 
 }
