@@ -20,6 +20,8 @@ public interface GitHubAuthorization {
 	public String getLoginRedirect(String returnRequestUri, List<String> scopes)
 		throws Exception;
 
+	public List<String> getScopes();
+
 	public boolean isEnabled();
 
 	public void saveAccessToken(String accessToken, HttpSession session);

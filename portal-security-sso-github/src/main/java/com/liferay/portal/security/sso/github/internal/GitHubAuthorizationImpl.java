@@ -21,6 +21,7 @@ import com.liferay.portal.security.sso.github.GitHubAuthorization;
 import com.liferay.portal.security.sso.github.configuration.GitHubAuthorizationConfiguration;
 import com.liferay.portal.security.sso.github.constants.GitHubWebKeys;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -117,6 +118,10 @@ public class GitHubAuthorizationImpl implements GitHubAuthorization {
 		sb.append(StringUtil.merge(scopes));
 
 		return sb.toString();
+	}
+
+	public List<String> getScopes() {
+		return Arrays.asList("user");
 	}
 
 	@Override

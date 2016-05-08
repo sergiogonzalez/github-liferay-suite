@@ -17,7 +17,6 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.security.sso.github.GitHubAuthorization;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.portlet.PortletMode;
@@ -61,8 +60,10 @@ public class GitHubLoginAction extends BaseStrutsAction {
 		if (cmd.equals(GitHubLoginConstants.CMD_LOGIN)) {
 			String returnRequestUri = getReturnRequestUri(request);
 
+			List<String> scopes = _gitHubAuthorization.getScopes();
+
 			String loginRedirect = _gitHubAuthorization.getLoginRedirect(
-				returnRequestUri, _scopesLogin);
+				returnRequestUri, scopes);
 
 			response.sendRedirect(loginRedirect);
 		}
@@ -169,8 +170,6 @@ public class GitHubLoginAction extends BaseStrutsAction {
 	private static final String _REDIRECT_URI =
 		GitHubLoginConstants.GITHUB_LOGIN_URL + "?cmd=" +
 			GitHubLoginConstants.CMD_TOKEN;
-
-	private static final List<String> _scopesLogin = Arrays.asList("user");
 
 	@Reference(policyOption = ReferencePolicyOption.GREEDY)
 	private GitHubAuthorization _gitHubAuthorization;
