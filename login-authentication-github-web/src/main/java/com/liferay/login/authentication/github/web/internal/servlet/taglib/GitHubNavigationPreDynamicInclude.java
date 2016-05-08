@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferencePolicyOption;
 
 /**
  * @author Sergio González
@@ -58,7 +59,7 @@ public class GitHubNavigationPreDynamicInclude extends BaseDynamicInclude {
 	private static final Log _log = LogFactoryUtil.getLog(
 		GitHubNavigationPreDynamicInclude.class);
 
-	@Reference
+	@Reference(policyOption = ReferencePolicyOption.GREEDY)
 	private GitHubAuthorization _gitHubAuthorization;
 
 	@Reference(

@@ -30,6 +30,7 @@ import javax.servlet.http.HttpSession;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferencePolicyOption;
 
 /**
  * @author Sergio González
@@ -171,7 +172,7 @@ public class GitHubLoginAction extends BaseStrutsAction {
 
 	private static final List<String> _scopesLogin = Arrays.asList("user");
 
-	@Reference
+	@Reference(policyOption = ReferencePolicyOption.GREEDY)
 	private GitHubAuthorization _gitHubAuthorization;
 
 }

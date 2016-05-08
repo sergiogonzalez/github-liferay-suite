@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferencePolicyOption;
 
 /**
  * @author Sergio González
@@ -67,7 +68,7 @@ public class GitHubAutoLogin extends BaseAutoLogin {
 		return null;
 	}
 
-	@Reference
+	@Reference(policyOption = ReferencePolicyOption.GREEDY)
 	private GitHubAuthorization _gitHubAuthorization;
 
 	@Reference
