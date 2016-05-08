@@ -7,4 +7,4 @@ Export-Package:\
 	com.liferay.portal.security.sso.github.constants
 -liferay-includeresource:\
 	@org.eclipse.egit.github.core-*.jar,\
-	@gson-*.jar,\
+	@gson-*.jar
