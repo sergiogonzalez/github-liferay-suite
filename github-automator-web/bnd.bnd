@@ -1,0 +1,6 @@
+Bundle-Name: GitHub Automator Web
+Bundle-SymbolicName: com.liferay.github.automator.web
+Bundle-Version: 1.0.0
+-liferay-includeresource:\
+	@org.eclipse.egit.github.core-*.jar,\
+	@gson-*.jar
