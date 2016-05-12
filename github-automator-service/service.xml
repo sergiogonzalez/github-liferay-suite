@@ -3,6 +3,31 @@
 
 <service-builder auto-namespace-tables="false" package-path="com.liferay.github.automator">
 	<namespace>GitHubAutomator</namespace>
+	<entity local-service="true" name="GHAutomatorRepository" remote-service="false" uuid="true">
+
+		<!-- PK fields -->
+
+		<column name="ghAutomatorRepositoryId" primary="true" type="long" />
+
+		<!-- Audit fields -->
+
+		<column name="userId" type="long" />
+		<column name="createDate" type="Date" />
+
+		<!-- Other fields -->
+
+		<column name="ghRepositoryId" type="String" />
+		<column name="enabled" type="boolean" />
+
+		<!-- Finder methods -->
+
+		<finder name="GHRepositoryId" return-type="GHAutomatorTask">
+			<finder-column name="ghRepositoryId" />
+		</finder>
+		<finder name="GHRID_E" return-type="Collection">
+			<finder-column name="enabled" />
+		</finder>
+	</entity>
 	<entity local-service="true" name="GHAutomatorTask" remote-service="false" uuid="true">
 
 		<!-- PK fields -->
@@ -43,6 +68,7 @@
 		</finder>
 	</entity>
 	<exceptions>
+		<exception>DuplicateGHAutomatorRepository</exception>
 		<exception>DuplicateGHAutomatorTask</exception>
 	</exceptions>
 </service-builder>

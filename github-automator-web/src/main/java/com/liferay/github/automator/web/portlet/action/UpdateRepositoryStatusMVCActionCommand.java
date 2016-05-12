@@ -1,6 +1,6 @@
 package com.liferay.github.automator.web.portlet.action;
 
-import com.liferay.github.automator.service.GHAutomatorTaskLocalService;
+import com.liferay.github.automator.service.GHAutomatorRepositoryLocalService;
 import com.liferay.github.automator.web.constants.GitHubAutomatorPortletKeys;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
@@ -53,12 +53,13 @@ public class UpdateRepositoryStatusMVCActionCommand
 				repositoryStatusProperties.getProperty(
 					repositoryStatusPropertyKey));
 
-			ghAutomatorTaskLocalService.updateGHAutomatorRepository(
+			ghAutomatorRepositoryLocalService.updateGHAutomatorRepository(
 				themeDisplay.getUserId(), repositoryStatusPropertyKey, enabled);
 		}
 	}
 
 	@Reference
-	protected GHAutomatorTaskLocalService ghAutomatorTaskLocalService;
+	protected GHAutomatorRepositoryLocalService
+		ghAutomatorRepositoryLocalService;
 
 }

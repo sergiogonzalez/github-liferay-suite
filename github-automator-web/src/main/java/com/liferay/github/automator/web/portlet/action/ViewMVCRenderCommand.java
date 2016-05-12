@@ -1,6 +1,6 @@
 package com.liferay.github.automator.web.portlet.action;
 
-import com.liferay.github.automator.service.GHAutomatorTaskLocalService;
+import com.liferay.github.automator.service.GHAutomatorRepositoryLocalService;
 import com.liferay.github.automator.web.constants.GitHubAutomatorPortletKeys;
 import com.liferay.github.automator.web.constants.GitHubAutomatorWebKeys;
 import com.liferay.github.automator.web.model.view.GitHubRepositoryModelView;
@@ -86,8 +86,9 @@ public class ViewMVCRenderCommand implements MVCRenderCommand {
 			User owner = gitHubRepository.getOwner();
 
 			boolean enabled =
-				ghAutomatorTaskLocalService.isGHAutomatorRepositoryEnabled(
-					String.valueOf(gitHubRepository.getId()));
+				ghAutomatorRepositoryLocalService.
+					isGHAutomatorRepositoryEnabled(
+						String.valueOf(gitHubRepository.getId()));
 
 			GitHubRepositoryModelView gitHubRepositoryModelView =
 				new GitHubRepositoryModelView(
@@ -145,7 +146,8 @@ public class ViewMVCRenderCommand implements MVCRenderCommand {
 	}
 
 	@Reference
-	protected GHAutomatorTaskLocalService ghAutomatorTaskLocalService;
+	protected GHAutomatorRepositoryLocalService
+		ghAutomatorRepositoryLocalService;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		ViewMVCRenderCommand.class);
