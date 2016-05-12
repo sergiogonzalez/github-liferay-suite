@@ -50,7 +50,7 @@ portletURL.setParameter("navigation", navigation);
 <portlet:actionURL name="/github_automator/update_repository_status" var="updateRepositoryStatusURL" />
 
 <aui:form action="<%= updateRepositoryStatusURL %>">
-
+	<aui:input name="redirect" type="hidden" value="<%= currentURL %>" />
 	<%
 	List<GitHubRepositoryModelView> gitHubRepositoryModelViews = (List<GitHubRepositoryModelView>)request.getAttribute(GitHubAutomatorWebKeys.GITHUB_REPOSITORY_MODEL_VIEWS);
 
