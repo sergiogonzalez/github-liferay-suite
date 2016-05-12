@@ -27,6 +27,15 @@ public class GHAutomatorTaskLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link com.liferay.github.automator.service.impl.GHAutomatorTaskLocalServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static boolean isGHAutomatorRepositoryEnabled(
+		java.lang.String repositoryId) {
+		return getService().isGHAutomatorRepositoryEnabled(repositoryId);
+	}
+
+	public static boolean isGHAutomatorTaskEnabled(
+		java.lang.String repositoryId, java.lang.String taskUuid) {
+		return getService().isGHAutomatorTaskEnabled(repositoryId, taskUuid);
+	}
 
 	/**
 	* Adds the g h automator task to the database. Also notifies the appropriate model listeners.

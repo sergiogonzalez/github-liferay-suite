@@ -20,6 +20,18 @@ public class GHAutomatorTaskLocalServiceWrapper
 		_ghAutomatorTaskLocalService = ghAutomatorTaskLocalService;
 	}
 
+	@Override
+	public boolean isGHAutomatorRepositoryEnabled(java.lang.String repositoryId) {
+		return _ghAutomatorTaskLocalService.isGHAutomatorRepositoryEnabled(repositoryId);
+	}
+
+	@Override
+	public boolean isGHAutomatorTaskEnabled(java.lang.String repositoryId,
+		java.lang.String taskUuid) {
+		return _ghAutomatorTaskLocalService.isGHAutomatorTaskEnabled(repositoryId,
+			taskUuid);
+	}
+
 	/**
 	* Adds the g h automator task to the database. Also notifies the appropriate model listeners.
 	*
