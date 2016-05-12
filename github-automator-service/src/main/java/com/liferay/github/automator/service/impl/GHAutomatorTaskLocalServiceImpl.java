@@ -15,6 +15,17 @@ import java.util.Date;
 public class GHAutomatorTaskLocalServiceImpl
 	extends GHAutomatorTaskLocalServiceBaseImpl {
 
+	public boolean isGHAutomatorRepositoryEnabled(String repositoryId) {
+		return doIsGHAutomatorTaskEnabled(
+			repositoryId, GHAutomatorConstants.ROOT_TASK_UUID);
+	}
+
+	public boolean isGHAutomatorTaskEnabled(
+		String repositoryId, String taskUuid) {
+
+		return doIsGHAutomatorTaskEnabled(repositoryId, taskUuid);
+	}
+
 	public GHAutomatorTask updateGHAutomatorRepository(
 		long userId, String repositoryId, boolean enabled) {
 
@@ -69,6 +80,20 @@ public class GHAutomatorTaskLocalServiceImpl
 		ghAutomatorTask.setGhTaskUuid(taskUuid);
 
 		return ghAutomatorTask;
+	}
+
+	protected boolean doIsGHAutomatorTaskEnabled(
+		String repositoryId, String taskUuid) {
+
+		GHAutomatorTask ghAutomatorTask =
+			ghAutomatorTaskPersistence.fetchByGHRID_GHTUUID(
+				repositoryId, taskUuid);
+
+		if (ghAutomatorTask != null) {
+			return ghAutomatorTask.isEnabled();
+		}
+
+		return false;
 	}
 
 }
