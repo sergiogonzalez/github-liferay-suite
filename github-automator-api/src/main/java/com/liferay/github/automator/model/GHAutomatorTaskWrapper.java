@@ -102,7 +102,7 @@ public class GHAutomatorTaskWrapper implements GHAutomatorTask,
 			setModifiedDate(modifiedDate);
 		}
 
-		Long ghRepositoryId = (Long)attributes.get("ghRepositoryId");
+		String ghRepositoryId = (String)attributes.get("ghRepositoryId");
 
 		if (ghRepositoryId != null) {
 			setGhRepositoryId(ghRepositoryId);
@@ -197,6 +197,16 @@ public class GHAutomatorTaskWrapper implements GHAutomatorTask,
 	}
 
 	/**
+	* Returns the gh repository ID of this g h automator task.
+	*
+	* @return the gh repository ID of this g h automator task
+	*/
+	@Override
+	public java.lang.String getGhRepositoryId() {
+		return _ghAutomatorTask.getGhRepositoryId();
+	}
+
+	/**
 	* Returns the gh task uuid of this g h automator task.
 	*
 	* @return the gh task uuid of this g h automator task
@@ -264,16 +274,6 @@ public class GHAutomatorTaskWrapper implements GHAutomatorTask,
 	@Override
 	public long getGhAutomatorTaskId() {
 		return _ghAutomatorTask.getGhAutomatorTaskId();
-	}
-
-	/**
-	* Returns the gh repository ID of this g h automator task.
-	*
-	* @return the gh repository ID of this g h automator task
-	*/
-	@Override
-	public long getGhRepositoryId() {
-		return _ghAutomatorTask.getGhRepositoryId();
 	}
 
 	/**
@@ -358,7 +358,7 @@ public class GHAutomatorTaskWrapper implements GHAutomatorTask,
 	* @param ghRepositoryId the gh repository ID of this g h automator task
 	*/
 	@Override
-	public void setGhRepositoryId(long ghRepositoryId) {
+	public void setGhRepositoryId(java.lang.String ghRepositoryId) {
 		_ghAutomatorTask.setGhRepositoryId(ghRepositoryId);
 	}
 

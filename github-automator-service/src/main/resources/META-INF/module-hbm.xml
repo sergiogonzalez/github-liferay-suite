@@ -11,7 +11,7 @@
 		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="createDate" type="org.hibernate.type.TimestampType" />
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
-		<property name="ghRepositoryId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="ghRepositoryId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="ghTaskUuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="enabled" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 	</class>

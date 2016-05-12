@@ -135,11 +135,11 @@ public class GHAutomatorTaskSoap implements Serializable {
 		_modifiedDate = modifiedDate;
 	}
 
-	public long getGhRepositoryId() {
+	public String getGhRepositoryId() {
 		return _ghRepositoryId;
 	}
 
-	public void setGhRepositoryId(long ghRepositoryId) {
+	public void setGhRepositoryId(String ghRepositoryId) {
 		_ghRepositoryId = ghRepositoryId;
 	}
 
@@ -168,7 +168,7 @@ public class GHAutomatorTaskSoap implements Serializable {
 	private long _userId;
 	private Date _createDate;
 	private Date _modifiedDate;
-	private long _ghRepositoryId;
+	private String _ghRepositoryId;
 	private String _ghTaskUuid;
 	private boolean _enabled;
 }

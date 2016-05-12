@@ -7,7 +7,7 @@
 		<field name="userId" type="long" />
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
-		<field name="ghRepositoryId" type="long" />
+		<field name="ghRepositoryId" type="String" />
 		<field name="ghTaskUuid" type="String" />
 		<field name="enabled" type="boolean" />
 	</model>

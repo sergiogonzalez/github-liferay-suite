@@ -106,6 +106,12 @@ public class GHAutomatorTaskLocalServiceUtil {
 		return getService().getGHAutomatorTask(ghAutomatorTaskId);
 	}
 
+	public static com.liferay.github.automator.model.GHAutomatorTask updateGHAutomatorRepository(
+		long userId, java.lang.String repositoryId, boolean enabled) {
+		return getService()
+				   .updateGHAutomatorRepository(userId, repositoryId, enabled);
+	}
+
 	/**
 	* Updates the g h automator task in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
@@ -115,6 +121,14 @@ public class GHAutomatorTaskLocalServiceUtil {
 	public static com.liferay.github.automator.model.GHAutomatorTask updateGHAutomatorTask(
 		com.liferay.github.automator.model.GHAutomatorTask ghAutomatorTask) {
 		return getService().updateGHAutomatorTask(ghAutomatorTask);
+	}
+
+	public static com.liferay.github.automator.model.GHAutomatorTask updateGHAutomatorTask(
+		long userId, java.lang.String repositoryId, java.lang.String taskUuid,
+		boolean enabled) {
+		return getService()
+				   .updateGHAutomatorTask(userId, repositoryId, taskUuid,
+			enabled);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {

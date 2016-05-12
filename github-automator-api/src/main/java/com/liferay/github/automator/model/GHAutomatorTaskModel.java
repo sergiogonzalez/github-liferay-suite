@@ -152,14 +152,15 @@ public interface GHAutomatorTaskModel extends BaseModel<GHAutomatorTask> {
 	 *
 	 * @return the gh repository ID of this g h automator task
 	 */
-	public long getGhRepositoryId();
+	@AutoEscape
+	public String getGhRepositoryId();
 
 	/**
 	 * Sets the gh repository ID of this g h automator task.
 	 *
 	 * @param ghRepositoryId the gh repository ID of this g h automator task
 	 */
-	public void setGhRepositoryId(long ghRepositoryId);
+	public void setGhRepositoryId(String ghRepositoryId);
 
 	/**
 	 * Returns the gh task uuid of this g h automator task.

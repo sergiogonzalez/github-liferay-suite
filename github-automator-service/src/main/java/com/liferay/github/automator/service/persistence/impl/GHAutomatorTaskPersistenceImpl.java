@@ -645,7 +645,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 			GHAutomatorTaskImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findByGHRepositoryId",
 			new String[] {
-				Long.class.getName(),
+				String.class.getName(),
 				
 			Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
@@ -655,12 +655,12 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 			GHAutomatorTaskModelImpl.FINDER_CACHE_ENABLED,
 			GHAutomatorTaskImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGHRepositoryId",
-			new String[] { Long.class.getName() },
+			new String[] { String.class.getName() },
 			GHAutomatorTaskModelImpl.GHREPOSITORYID_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_GHREPOSITORYID = new FinderPath(GHAutomatorTaskModelImpl.ENTITY_CACHE_ENABLED,
 			GHAutomatorTaskModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGHRepositoryId",
-			new String[] { Long.class.getName() });
+			new String[] { String.class.getName() });
 
 	/**
 	 * Returns all the g h automator tasks where ghRepositoryId = &#63;.
@@ -669,7 +669,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	 * @return the matching g h automator tasks
 	 */
 	@Override
-	public List<GHAutomatorTask> findByGHRepositoryId(long ghRepositoryId) {
+	public List<GHAutomatorTask> findByGHRepositoryId(String ghRepositoryId) {
 		return findByGHRepositoryId(ghRepositoryId, QueryUtil.ALL_POS,
 			QueryUtil.ALL_POS, null);
 	}
@@ -687,7 +687,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	 * @return the range of matching g h automator tasks
 	 */
 	@Override
-	public List<GHAutomatorTask> findByGHRepositoryId(long ghRepositoryId,
+	public List<GHAutomatorTask> findByGHRepositoryId(String ghRepositoryId,
 		int start, int end) {
 		return findByGHRepositoryId(ghRepositoryId, start, end, null);
 	}
@@ -706,7 +706,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	 * @return the ordered range of matching g h automator tasks
 	 */
 	@Override
-	public List<GHAutomatorTask> findByGHRepositoryId(long ghRepositoryId,
+	public List<GHAutomatorTask> findByGHRepositoryId(String ghRepositoryId,
 		int start, int end, OrderByComparator<GHAutomatorTask> orderByComparator) {
 		return findByGHRepositoryId(ghRepositoryId, start, end,
 			orderByComparator, true);
@@ -727,7 +727,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	 * @return the ordered range of matching g h automator tasks
 	 */
 	@Override
-	public List<GHAutomatorTask> findByGHRepositoryId(long ghRepositoryId,
+	public List<GHAutomatorTask> findByGHRepositoryId(String ghRepositoryId,
 		int start, int end,
 		OrderByComparator<GHAutomatorTask> orderByComparator,
 		boolean retrieveFromCache) {
@@ -758,7 +758,8 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 
 			if ((list != null) && !list.isEmpty()) {
 				for (GHAutomatorTask ghAutomatorTask : list) {
-					if ((ghRepositoryId != ghAutomatorTask.getGhRepositoryId())) {
+					if (!Objects.equals(ghRepositoryId,
+								ghAutomatorTask.getGhRepositoryId())) {
 						list = null;
 
 						break;
@@ -780,7 +781,19 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 
 			query.append(_SQL_SELECT_GHAUTOMATORTASK_WHERE);
 
-			query.append(_FINDER_COLUMN_GHREPOSITORYID_GHREPOSITORYID_2);
+			boolean bindGhRepositoryId = false;
+
+			if (ghRepositoryId == null) {
+				query.append(_FINDER_COLUMN_GHREPOSITORYID_GHREPOSITORYID_1);
+			}
+			else if (ghRepositoryId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_GHREPOSITORYID_GHREPOSITORYID_3);
+			}
+			else {
+				bindGhRepositoryId = true;
+
+				query.append(_FINDER_COLUMN_GHREPOSITORYID_GHREPOSITORYID_2);
+			}
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -802,7 +815,9 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				qPos.add(ghRepositoryId);
+				if (bindGhRepositoryId) {
+					qPos.add(ghRepositoryId);
+				}
 
 				if (!pagination) {
 					list = (List<GHAutomatorTask>)QueryUtil.list(q,
@@ -843,7 +858,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	 * @throws NoSuchGHAutomatorTaskException if a matching g h automator task could not be found
 	 */
 	@Override
-	public GHAutomatorTask findByGHRepositoryId_First(long ghRepositoryId,
+	public GHAutomatorTask findByGHRepositoryId_First(String ghRepositoryId,
 		OrderByComparator<GHAutomatorTask> orderByComparator)
 		throws NoSuchGHAutomatorTaskException {
 		GHAutomatorTask ghAutomatorTask = fetchByGHRepositoryId_First(ghRepositoryId,
@@ -873,7 +888,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	 * @return the first matching g h automator task, or <code>null</code> if a matching g h automator task could not be found
 	 */
 	@Override
-	public GHAutomatorTask fetchByGHRepositoryId_First(long ghRepositoryId,
+	public GHAutomatorTask fetchByGHRepositoryId_First(String ghRepositoryId,
 		OrderByComparator<GHAutomatorTask> orderByComparator) {
 		List<GHAutomatorTask> list = findByGHRepositoryId(ghRepositoryId, 0, 1,
 				orderByComparator);
@@ -894,7 +909,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	 * @throws NoSuchGHAutomatorTaskException if a matching g h automator task could not be found
 	 */
 	@Override
-	public GHAutomatorTask findByGHRepositoryId_Last(long ghRepositoryId,
+	public GHAutomatorTask findByGHRepositoryId_Last(String ghRepositoryId,
 		OrderByComparator<GHAutomatorTask> orderByComparator)
 		throws NoSuchGHAutomatorTaskException {
 		GHAutomatorTask ghAutomatorTask = fetchByGHRepositoryId_Last(ghRepositoryId,
@@ -924,7 +939,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	 * @return the last matching g h automator task, or <code>null</code> if a matching g h automator task could not be found
 	 */
 	@Override
-	public GHAutomatorTask fetchByGHRepositoryId_Last(long ghRepositoryId,
+	public GHAutomatorTask fetchByGHRepositoryId_Last(String ghRepositoryId,
 		OrderByComparator<GHAutomatorTask> orderByComparator) {
 		int count = countByGHRepositoryId(ghRepositoryId);
 
@@ -953,7 +968,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	 */
 	@Override
 	public GHAutomatorTask[] findByGHRepositoryId_PrevAndNext(
-		long ghAutomatorTaskId, long ghRepositoryId,
+		long ghAutomatorTaskId, String ghRepositoryId,
 		OrderByComparator<GHAutomatorTask> orderByComparator)
 		throws NoSuchGHAutomatorTaskException {
 		GHAutomatorTask ghAutomatorTask = findByPrimaryKey(ghAutomatorTaskId);
@@ -984,7 +999,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	}
 
 	protected GHAutomatorTask getByGHRepositoryId_PrevAndNext(Session session,
-		GHAutomatorTask ghAutomatorTask, long ghRepositoryId,
+		GHAutomatorTask ghAutomatorTask, String ghRepositoryId,
 		OrderByComparator<GHAutomatorTask> orderByComparator, boolean previous) {
 		StringBundler query = null;
 
@@ -999,7 +1014,19 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 
 		query.append(_SQL_SELECT_GHAUTOMATORTASK_WHERE);
 
-		query.append(_FINDER_COLUMN_GHREPOSITORYID_GHREPOSITORYID_2);
+		boolean bindGhRepositoryId = false;
+
+		if (ghRepositoryId == null) {
+			query.append(_FINDER_COLUMN_GHREPOSITORYID_GHREPOSITORYID_1);
+		}
+		else if (ghRepositoryId.equals(StringPool.BLANK)) {
+			query.append(_FINDER_COLUMN_GHREPOSITORYID_GHREPOSITORYID_3);
+		}
+		else {
+			bindGhRepositoryId = true;
+
+			query.append(_FINDER_COLUMN_GHREPOSITORYID_GHREPOSITORYID_2);
+		}
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1069,7 +1096,9 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 
 		QueryPos qPos = QueryPos.getInstance(q);
 
-		qPos.add(ghRepositoryId);
+		if (bindGhRepositoryId) {
+			qPos.add(ghRepositoryId);
+		}
 
 		if (orderByComparator != null) {
 			Object[] values = orderByComparator.getOrderByConditionValues(ghAutomatorTask);
@@ -1095,7 +1124,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	 * @param ghRepositoryId the gh repository ID
 	 */
 	@Override
-	public void removeByGHRepositoryId(long ghRepositoryId) {
+	public void removeByGHRepositoryId(String ghRepositoryId) {
 		for (GHAutomatorTask ghAutomatorTask : findByGHRepositoryId(
 				ghRepositoryId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
 			remove(ghAutomatorTask);
@@ -1109,7 +1138,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	 * @return the number of matching g h automator tasks
 	 */
 	@Override
-	public int countByGHRepositoryId(long ghRepositoryId) {
+	public int countByGHRepositoryId(String ghRepositoryId) {
 		FinderPath finderPath = FINDER_PATH_COUNT_BY_GHREPOSITORYID;
 
 		Object[] finderArgs = new Object[] { ghRepositoryId };
@@ -1121,7 +1150,19 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 
 			query.append(_SQL_COUNT_GHAUTOMATORTASK_WHERE);
 
-			query.append(_FINDER_COLUMN_GHREPOSITORYID_GHREPOSITORYID_2);
+			boolean bindGhRepositoryId = false;
+
+			if (ghRepositoryId == null) {
+				query.append(_FINDER_COLUMN_GHREPOSITORYID_GHREPOSITORYID_1);
+			}
+			else if (ghRepositoryId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_GHREPOSITORYID_GHREPOSITORYID_3);
+			}
+			else {
+				bindGhRepositoryId = true;
+
+				query.append(_FINDER_COLUMN_GHREPOSITORYID_GHREPOSITORYID_2);
+			}
 
 			String sql = query.toString();
 
@@ -1134,7 +1175,9 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				qPos.add(ghRepositoryId);
+				if (bindGhRepositoryId) {
+					qPos.add(ghRepositoryId);
+				}
 
 				count = (Long)q.uniqueResult();
 
@@ -1153,7 +1196,9 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 		return count.intValue();
 	}
 
+	private static final String _FINDER_COLUMN_GHREPOSITORYID_GHREPOSITORYID_1 = "ghAutomatorTask.ghRepositoryId IS NULL";
 	private static final String _FINDER_COLUMN_GHREPOSITORYID_GHREPOSITORYID_2 = "ghAutomatorTask.ghRepositoryId = ?";
+	private static final String _FINDER_COLUMN_GHREPOSITORYID_GHREPOSITORYID_3 = "(ghAutomatorTask.ghRepositoryId IS NULL OR ghAutomatorTask.ghRepositoryId = '')";
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_GHTASKUUID =
 		new FinderPath(GHAutomatorTaskModelImpl.ENTITY_CACHE_ENABLED,
 			GHAutomatorTaskModelImpl.FINDER_CACHE_ENABLED,
@@ -1712,13 +1757,13 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 			GHAutomatorTaskModelImpl.FINDER_CACHE_ENABLED,
 			GHAutomatorTaskImpl.class, FINDER_CLASS_NAME_ENTITY,
 			"fetchByGHRID_GHTUUID",
-			new String[] { Long.class.getName(), String.class.getName() },
+			new String[] { String.class.getName(), String.class.getName() },
 			GHAutomatorTaskModelImpl.GHREPOSITORYID_COLUMN_BITMASK |
 			GHAutomatorTaskModelImpl.GHTASKUUID_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_GHRID_GHTUUID = new FinderPath(GHAutomatorTaskModelImpl.ENTITY_CACHE_ENABLED,
 			GHAutomatorTaskModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGHRID_GHTUUID",
-			new String[] { Long.class.getName(), String.class.getName() });
+			new String[] { String.class.getName(), String.class.getName() });
 
 	/**
 	 * Returns the g h automator task where ghRepositoryId = &#63; and ghTaskUuid = &#63; or throws a {@link NoSuchGHAutomatorTaskException} if it could not be found.
@@ -1729,7 +1774,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	 * @throws NoSuchGHAutomatorTaskException if a matching g h automator task could not be found
 	 */
 	@Override
-	public GHAutomatorTask findByGHRID_GHTUUID(long ghRepositoryId,
+	public GHAutomatorTask findByGHRID_GHTUUID(String ghRepositoryId,
 		String ghTaskUuid) throws NoSuchGHAutomatorTaskException {
 		GHAutomatorTask ghAutomatorTask = fetchByGHRID_GHTUUID(ghRepositoryId,
 				ghTaskUuid);
@@ -1765,7 +1810,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	 * @return the matching g h automator task, or <code>null</code> if a matching g h automator task could not be found
 	 */
 	@Override
-	public GHAutomatorTask fetchByGHRID_GHTUUID(long ghRepositoryId,
+	public GHAutomatorTask fetchByGHRID_GHTUUID(String ghRepositoryId,
 		String ghTaskUuid) {
 		return fetchByGHRID_GHTUUID(ghRepositoryId, ghTaskUuid, true);
 	}
@@ -1779,7 +1824,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	 * @return the matching g h automator task, or <code>null</code> if a matching g h automator task could not be found
 	 */
 	@Override
-	public GHAutomatorTask fetchByGHRID_GHTUUID(long ghRepositoryId,
+	public GHAutomatorTask fetchByGHRID_GHTUUID(String ghRepositoryId,
 		String ghTaskUuid, boolean retrieveFromCache) {
 		Object[] finderArgs = new Object[] { ghRepositoryId, ghTaskUuid };
 
@@ -1793,7 +1838,8 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 		if (result instanceof GHAutomatorTask) {
 			GHAutomatorTask ghAutomatorTask = (GHAutomatorTask)result;
 
-			if ((ghRepositoryId != ghAutomatorTask.getGhRepositoryId()) ||
+			if (!Objects.equals(ghRepositoryId,
+						ghAutomatorTask.getGhRepositoryId()) ||
 					!Objects.equals(ghTaskUuid, ghAutomatorTask.getGhTaskUuid())) {
 				result = null;
 			}
@@ -1804,7 +1850,19 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 
 			query.append(_SQL_SELECT_GHAUTOMATORTASK_WHERE);
 
-			query.append(_FINDER_COLUMN_GHRID_GHTUUID_GHREPOSITORYID_2);
+			boolean bindGhRepositoryId = false;
+
+			if (ghRepositoryId == null) {
+				query.append(_FINDER_COLUMN_GHRID_GHTUUID_GHREPOSITORYID_1);
+			}
+			else if (ghRepositoryId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_GHRID_GHTUUID_GHREPOSITORYID_3);
+			}
+			else {
+				bindGhRepositoryId = true;
+
+				query.append(_FINDER_COLUMN_GHRID_GHTUUID_GHREPOSITORYID_2);
+			}
 
 			boolean bindGhTaskUuid = false;
 
@@ -1831,7 +1889,9 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				qPos.add(ghRepositoryId);
+				if (bindGhRepositoryId) {
+					qPos.add(ghRepositoryId);
+				}
 
 				if (bindGhTaskUuid) {
 					qPos.add(ghTaskUuid);
@@ -1846,7 +1906,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 				else {
 					if ((list.size() > 1) && _log.isWarnEnabled()) {
 						_log.warn(
-							"GHAutomatorTaskPersistenceImpl.fetchByGHRID_GHTUUID(long, String, boolean) with parameters (" +
+							"GHAutomatorTaskPersistenceImpl.fetchByGHRID_GHTUUID(String, String, boolean) with parameters (" +
 							StringUtil.merge(finderArgs) +
 							") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
 					}
@@ -1857,7 +1917,9 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 
 					cacheResult(ghAutomatorTask);
 
-					if ((ghAutomatorTask.getGhRepositoryId() != ghRepositoryId) ||
+					if ((ghAutomatorTask.getGhRepositoryId() == null) ||
+							!ghAutomatorTask.getGhRepositoryId()
+												.equals(ghRepositoryId) ||
 							(ghAutomatorTask.getGhTaskUuid() == null) ||
 							!ghAutomatorTask.getGhTaskUuid().equals(ghTaskUuid)) {
 						finderCache.putResult(FINDER_PATH_FETCH_BY_GHRID_GHTUUID,
@@ -1892,7 +1954,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	 * @return the g h automator task that was removed
 	 */
 	@Override
-	public GHAutomatorTask removeByGHRID_GHTUUID(long ghRepositoryId,
+	public GHAutomatorTask removeByGHRID_GHTUUID(String ghRepositoryId,
 		String ghTaskUuid) throws NoSuchGHAutomatorTaskException {
 		GHAutomatorTask ghAutomatorTask = findByGHRID_GHTUUID(ghRepositoryId,
 				ghTaskUuid);
@@ -1908,7 +1970,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	 * @return the number of matching g h automator tasks
 	 */
 	@Override
-	public int countByGHRID_GHTUUID(long ghRepositoryId, String ghTaskUuid) {
+	public int countByGHRID_GHTUUID(String ghRepositoryId, String ghTaskUuid) {
 		FinderPath finderPath = FINDER_PATH_COUNT_BY_GHRID_GHTUUID;
 
 		Object[] finderArgs = new Object[] { ghRepositoryId, ghTaskUuid };
@@ -1920,7 +1982,19 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 
 			query.append(_SQL_COUNT_GHAUTOMATORTASK_WHERE);
 
-			query.append(_FINDER_COLUMN_GHRID_GHTUUID_GHREPOSITORYID_2);
+			boolean bindGhRepositoryId = false;
+
+			if (ghRepositoryId == null) {
+				query.append(_FINDER_COLUMN_GHRID_GHTUUID_GHREPOSITORYID_1);
+			}
+			else if (ghRepositoryId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_GHRID_GHTUUID_GHREPOSITORYID_3);
+			}
+			else {
+				bindGhRepositoryId = true;
+
+				query.append(_FINDER_COLUMN_GHRID_GHTUUID_GHREPOSITORYID_2);
+			}
 
 			boolean bindGhTaskUuid = false;
 
@@ -1947,7 +2021,9 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				qPos.add(ghRepositoryId);
+				if (bindGhRepositoryId) {
+					qPos.add(ghRepositoryId);
+				}
 
 				if (bindGhTaskUuid) {
 					qPos.add(ghTaskUuid);
@@ -1970,7 +2046,9 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 		return count.intValue();
 	}
 
+	private static final String _FINDER_COLUMN_GHRID_GHTUUID_GHREPOSITORYID_1 = "ghAutomatorTask.ghRepositoryId IS NULL AND ";
 	private static final String _FINDER_COLUMN_GHRID_GHTUUID_GHREPOSITORYID_2 = "ghAutomatorTask.ghRepositoryId = ? AND ";
+	private static final String _FINDER_COLUMN_GHRID_GHTUUID_GHREPOSITORYID_3 = "(ghAutomatorTask.ghRepositoryId IS NULL OR ghAutomatorTask.ghRepositoryId = '') AND ";
 	private static final String _FINDER_COLUMN_GHRID_GHTUUID_GHTASKUUID_1 = "ghAutomatorTask.ghTaskUuid IS NULL";
 	private static final String _FINDER_COLUMN_GHRID_GHTUUID_GHTASKUUID_2 = "ghAutomatorTask.ghTaskUuid = ?";
 	private static final String _FINDER_COLUMN_GHRID_GHTUUID_GHTASKUUID_3 = "(ghAutomatorTask.ghTaskUuid IS NULL OR ghAutomatorTask.ghTaskUuid = '')";
@@ -1979,7 +2057,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 			GHAutomatorTaskImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findByGHRID_E",
 			new String[] {
-				Long.class.getName(), Boolean.class.getName(),
+				String.class.getName(), Boolean.class.getName(),
 				
 			Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
@@ -1989,13 +2067,13 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 			GHAutomatorTaskModelImpl.FINDER_CACHE_ENABLED,
 			GHAutomatorTaskImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGHRID_E",
-			new String[] { Long.class.getName(), Boolean.class.getName() },
+			new String[] { String.class.getName(), Boolean.class.getName() },
 			GHAutomatorTaskModelImpl.GHREPOSITORYID_COLUMN_BITMASK |
 			GHAutomatorTaskModelImpl.ENABLED_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_GHRID_E = new FinderPath(GHAutomatorTaskModelImpl.ENTITY_CACHE_ENABLED,
 			GHAutomatorTaskModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGHRID_E",
-			new String[] { Long.class.getName(), Boolean.class.getName() });
+			new String[] { String.class.getName(), Boolean.class.getName() });
 
 	/**
 	 * Returns all the g h automator tasks where ghRepositoryId = &#63; and enabled = &#63;.
@@ -2005,7 +2083,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	 * @return the matching g h automator tasks
 	 */
 	@Override
-	public List<GHAutomatorTask> findByGHRID_E(long ghRepositoryId,
+	public List<GHAutomatorTask> findByGHRID_E(String ghRepositoryId,
 		boolean enabled) {
 		return findByGHRID_E(ghRepositoryId, enabled, QueryUtil.ALL_POS,
 			QueryUtil.ALL_POS, null);
@@ -2025,7 +2103,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	 * @return the range of matching g h automator tasks
 	 */
 	@Override
-	public List<GHAutomatorTask> findByGHRID_E(long ghRepositoryId,
+	public List<GHAutomatorTask> findByGHRID_E(String ghRepositoryId,
 		boolean enabled, int start, int end) {
 		return findByGHRID_E(ghRepositoryId, enabled, start, end, null);
 	}
@@ -2045,7 +2123,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	 * @return the ordered range of matching g h automator tasks
 	 */
 	@Override
-	public List<GHAutomatorTask> findByGHRID_E(long ghRepositoryId,
+	public List<GHAutomatorTask> findByGHRID_E(String ghRepositoryId,
 		boolean enabled, int start, int end,
 		OrderByComparator<GHAutomatorTask> orderByComparator) {
 		return findByGHRID_E(ghRepositoryId, enabled, start, end,
@@ -2068,7 +2146,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	 * @return the ordered range of matching g h automator tasks
 	 */
 	@Override
-	public List<GHAutomatorTask> findByGHRID_E(long ghRepositoryId,
+	public List<GHAutomatorTask> findByGHRID_E(String ghRepositoryId,
 		boolean enabled, int start, int end,
 		OrderByComparator<GHAutomatorTask> orderByComparator,
 		boolean retrieveFromCache) {
@@ -2099,7 +2177,8 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 
 			if ((list != null) && !list.isEmpty()) {
 				for (GHAutomatorTask ghAutomatorTask : list) {
-					if ((ghRepositoryId != ghAutomatorTask.getGhRepositoryId()) ||
+					if (!Objects.equals(ghRepositoryId,
+								ghAutomatorTask.getGhRepositoryId()) ||
 							(enabled != ghAutomatorTask.getEnabled())) {
 						list = null;
 
@@ -2122,7 +2201,19 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 
 			query.append(_SQL_SELECT_GHAUTOMATORTASK_WHERE);
 
-			query.append(_FINDER_COLUMN_GHRID_E_GHREPOSITORYID_2);
+			boolean bindGhRepositoryId = false;
+
+			if (ghRepositoryId == null) {
+				query.append(_FINDER_COLUMN_GHRID_E_GHREPOSITORYID_1);
+			}
+			else if (ghRepositoryId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_GHRID_E_GHREPOSITORYID_3);
+			}
+			else {
+				bindGhRepositoryId = true;
+
+				query.append(_FINDER_COLUMN_GHRID_E_GHREPOSITORYID_2);
+			}
 
 			query.append(_FINDER_COLUMN_GHRID_E_ENABLED_2);
 
@@ -2146,7 +2237,9 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				qPos.add(ghRepositoryId);
+				if (bindGhRepositoryId) {
+					qPos.add(ghRepositoryId);
+				}
 
 				qPos.add(enabled);
 
@@ -2190,7 +2283,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	 * @throws NoSuchGHAutomatorTaskException if a matching g h automator task could not be found
 	 */
 	@Override
-	public GHAutomatorTask findByGHRID_E_First(long ghRepositoryId,
+	public GHAutomatorTask findByGHRID_E_First(String ghRepositoryId,
 		boolean enabled, OrderByComparator<GHAutomatorTask> orderByComparator)
 		throws NoSuchGHAutomatorTaskException {
 		GHAutomatorTask ghAutomatorTask = fetchByGHRID_E_First(ghRepositoryId,
@@ -2224,7 +2317,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	 * @return the first matching g h automator task, or <code>null</code> if a matching g h automator task could not be found
 	 */
 	@Override
-	public GHAutomatorTask fetchByGHRID_E_First(long ghRepositoryId,
+	public GHAutomatorTask fetchByGHRID_E_First(String ghRepositoryId,
 		boolean enabled, OrderByComparator<GHAutomatorTask> orderByComparator) {
 		List<GHAutomatorTask> list = findByGHRID_E(ghRepositoryId, enabled, 0,
 				1, orderByComparator);
@@ -2246,7 +2339,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	 * @throws NoSuchGHAutomatorTaskException if a matching g h automator task could not be found
 	 */
 	@Override
-	public GHAutomatorTask findByGHRID_E_Last(long ghRepositoryId,
+	public GHAutomatorTask findByGHRID_E_Last(String ghRepositoryId,
 		boolean enabled, OrderByComparator<GHAutomatorTask> orderByComparator)
 		throws NoSuchGHAutomatorTaskException {
 		GHAutomatorTask ghAutomatorTask = fetchByGHRID_E_Last(ghRepositoryId,
@@ -2280,7 +2373,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	 * @return the last matching g h automator task, or <code>null</code> if a matching g h automator task could not be found
 	 */
 	@Override
-	public GHAutomatorTask fetchByGHRID_E_Last(long ghRepositoryId,
+	public GHAutomatorTask fetchByGHRID_E_Last(String ghRepositoryId,
 		boolean enabled, OrderByComparator<GHAutomatorTask> orderByComparator) {
 		int count = countByGHRID_E(ghRepositoryId, enabled);
 
@@ -2310,7 +2403,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	 */
 	@Override
 	public GHAutomatorTask[] findByGHRID_E_PrevAndNext(long ghAutomatorTaskId,
-		long ghRepositoryId, boolean enabled,
+		String ghRepositoryId, boolean enabled,
 		OrderByComparator<GHAutomatorTask> orderByComparator)
 		throws NoSuchGHAutomatorTaskException {
 		GHAutomatorTask ghAutomatorTask = findByPrimaryKey(ghAutomatorTaskId);
@@ -2341,8 +2434,9 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	}
 
 	protected GHAutomatorTask getByGHRID_E_PrevAndNext(Session session,
-		GHAutomatorTask ghAutomatorTask, long ghRepositoryId, boolean enabled,
-		OrderByComparator<GHAutomatorTask> orderByComparator, boolean previous) {
+		GHAutomatorTask ghAutomatorTask, String ghRepositoryId,
+		boolean enabled, OrderByComparator<GHAutomatorTask> orderByComparator,
+		boolean previous) {
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
@@ -2356,7 +2450,19 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 
 		query.append(_SQL_SELECT_GHAUTOMATORTASK_WHERE);
 
-		query.append(_FINDER_COLUMN_GHRID_E_GHREPOSITORYID_2);
+		boolean bindGhRepositoryId = false;
+
+		if (ghRepositoryId == null) {
+			query.append(_FINDER_COLUMN_GHRID_E_GHREPOSITORYID_1);
+		}
+		else if (ghRepositoryId.equals(StringPool.BLANK)) {
+			query.append(_FINDER_COLUMN_GHRID_E_GHREPOSITORYID_3);
+		}
+		else {
+			bindGhRepositoryId = true;
+
+			query.append(_FINDER_COLUMN_GHRID_E_GHREPOSITORYID_2);
+		}
 
 		query.append(_FINDER_COLUMN_GHRID_E_ENABLED_2);
 
@@ -2428,7 +2534,9 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 
 		QueryPos qPos = QueryPos.getInstance(q);
 
-		qPos.add(ghRepositoryId);
+		if (bindGhRepositoryId) {
+			qPos.add(ghRepositoryId);
+		}
 
 		qPos.add(enabled);
 
@@ -2457,7 +2565,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	 * @param enabled the enabled
 	 */
 	@Override
-	public void removeByGHRID_E(long ghRepositoryId, boolean enabled) {
+	public void removeByGHRID_E(String ghRepositoryId, boolean enabled) {
 		for (GHAutomatorTask ghAutomatorTask : findByGHRID_E(ghRepositoryId,
 				enabled, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
 			remove(ghAutomatorTask);
@@ -2472,7 +2580,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	 * @return the number of matching g h automator tasks
 	 */
 	@Override
-	public int countByGHRID_E(long ghRepositoryId, boolean enabled) {
+	public int countByGHRID_E(String ghRepositoryId, boolean enabled) {
 		FinderPath finderPath = FINDER_PATH_COUNT_BY_GHRID_E;
 
 		Object[] finderArgs = new Object[] { ghRepositoryId, enabled };
@@ -2484,7 +2592,19 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 
 			query.append(_SQL_COUNT_GHAUTOMATORTASK_WHERE);
 
-			query.append(_FINDER_COLUMN_GHRID_E_GHREPOSITORYID_2);
+			boolean bindGhRepositoryId = false;
+
+			if (ghRepositoryId == null) {
+				query.append(_FINDER_COLUMN_GHRID_E_GHREPOSITORYID_1);
+			}
+			else if (ghRepositoryId.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_GHRID_E_GHREPOSITORYID_3);
+			}
+			else {
+				bindGhRepositoryId = true;
+
+				query.append(_FINDER_COLUMN_GHRID_E_GHREPOSITORYID_2);
+			}
 
 			query.append(_FINDER_COLUMN_GHRID_E_ENABLED_2);
 
@@ -2499,7 +2619,9 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				qPos.add(ghRepositoryId);
+				if (bindGhRepositoryId) {
+					qPos.add(ghRepositoryId);
+				}
 
 				qPos.add(enabled);
 
@@ -2520,7 +2642,9 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 		return count.intValue();
 	}
 
+	private static final String _FINDER_COLUMN_GHRID_E_GHREPOSITORYID_1 = "ghAutomatorTask.ghRepositoryId IS NULL AND ";
 	private static final String _FINDER_COLUMN_GHRID_E_GHREPOSITORYID_2 = "ghAutomatorTask.ghRepositoryId = ? AND ";
+	private static final String _FINDER_COLUMN_GHRID_E_GHREPOSITORYID_3 = "(ghAutomatorTask.ghRepositoryId IS NULL OR ghAutomatorTask.ghRepositoryId = '') AND ";
 	private static final String _FINDER_COLUMN_GHRID_E_ENABLED_2 = "ghAutomatorTask.enabled = ?";
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_GHTUUID_E =
 		new FinderPath(GHAutomatorTaskModelImpl.ENTITY_CACHE_ENABLED,

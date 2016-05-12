@@ -113,6 +113,9 @@ public interface GHAutomatorTaskLocalService extends BaseLocalService,
 	public GHAutomatorTask getGHAutomatorTask(long ghAutomatorTaskId)
 		throws PortalException;
 
+	public GHAutomatorTask updateGHAutomatorRepository(long userId,
+		java.lang.String repositoryId, boolean enabled);
+
 	/**
 	* Updates the g h automator task in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
@@ -122,6 +125,10 @@ public interface GHAutomatorTaskLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public GHAutomatorTask updateGHAutomatorTask(
 		GHAutomatorTask ghAutomatorTask);
+
+	public GHAutomatorTask updateGHAutomatorTask(long userId,
+		java.lang.String repositoryId, java.lang.String taskUuid,
+		boolean enabled);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();

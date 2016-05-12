@@ -104,6 +104,13 @@ public class GHAutomatorTaskLocalServiceWrapper
 		return _ghAutomatorTaskLocalService.getGHAutomatorTask(ghAutomatorTaskId);
 	}
 
+	@Override
+	public com.liferay.github.automator.model.GHAutomatorTask updateGHAutomatorRepository(
+		long userId, java.lang.String repositoryId, boolean enabled) {
+		return _ghAutomatorTaskLocalService.updateGHAutomatorRepository(userId,
+			repositoryId, enabled);
+	}
+
 	/**
 	* Updates the g h automator task in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
@@ -114,6 +121,14 @@ public class GHAutomatorTaskLocalServiceWrapper
 	public com.liferay.github.automator.model.GHAutomatorTask updateGHAutomatorTask(
 		com.liferay.github.automator.model.GHAutomatorTask ghAutomatorTask) {
 		return _ghAutomatorTaskLocalService.updateGHAutomatorTask(ghAutomatorTask);
+	}
+
+	@Override
+	public com.liferay.github.automator.model.GHAutomatorTask updateGHAutomatorTask(
+		long userId, java.lang.String repositoryId, java.lang.String taskUuid,
+		boolean enabled) {
+		return _ghAutomatorTaskLocalService.updateGHAutomatorTask(userId,
+			repositoryId, taskUuid, enabled);
 	}
 
 	@Override

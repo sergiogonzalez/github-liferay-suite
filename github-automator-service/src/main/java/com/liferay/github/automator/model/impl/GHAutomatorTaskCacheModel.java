@@ -117,7 +117,12 @@ public class GHAutomatorTaskCacheModel implements CacheModel<GHAutomatorTask>,
 			ghAutomatorTaskImpl.setModifiedDate(new Date(modifiedDate));
 		}
 
-		ghAutomatorTaskImpl.setGhRepositoryId(ghRepositoryId);
+		if (ghRepositoryId == null) {
+			ghAutomatorTaskImpl.setGhRepositoryId(StringPool.BLANK);
+		}
+		else {
+			ghAutomatorTaskImpl.setGhRepositoryId(ghRepositoryId);
+		}
 
 		if (ghTaskUuid == null) {
 			ghAutomatorTaskImpl.setGhTaskUuid(StringPool.BLANK);
@@ -142,8 +147,7 @@ public class GHAutomatorTaskCacheModel implements CacheModel<GHAutomatorTask>,
 		userId = objectInput.readLong();
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
-
-		ghRepositoryId = objectInput.readLong();
+		ghRepositoryId = objectInput.readUTF();
 		ghTaskUuid = objectInput.readUTF();
 
 		enabled = objectInput.readBoolean();
@@ -165,7 +169,12 @@ public class GHAutomatorTaskCacheModel implements CacheModel<GHAutomatorTask>,
 		objectOutput.writeLong(createDate);
 		objectOutput.writeLong(modifiedDate);
 
-		objectOutput.writeLong(ghRepositoryId);
+		if (ghRepositoryId == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(ghRepositoryId);
+		}
 
 		if (ghTaskUuid == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -182,7 +191,7 @@ public class GHAutomatorTaskCacheModel implements CacheModel<GHAutomatorTask>,
 	public long userId;
 	public long createDate;
 	public long modifiedDate;
-	public long ghRepositoryId;
+	public String ghRepositoryId;
 	public String ghTaskUuid;
 	public boolean enabled;
 }

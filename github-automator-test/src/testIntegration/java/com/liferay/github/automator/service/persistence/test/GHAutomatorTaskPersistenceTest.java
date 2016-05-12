@@ -132,7 +132,7 @@ public class GHAutomatorTaskPersistenceTest {
 
 		newGHAutomatorTask.setModifiedDate(RandomTestUtil.nextDate());
 
-		newGHAutomatorTask.setGhRepositoryId(RandomTestUtil.nextLong());
+		newGHAutomatorTask.setGhRepositoryId(RandomTestUtil.randomString());
 
 		newGHAutomatorTask.setGhTaskUuid(RandomTestUtil.randomString());
 
@@ -173,9 +173,11 @@ public class GHAutomatorTaskPersistenceTest {
 
 	@Test
 	public void testCountByGHRepositoryId() throws Exception {
-		_persistence.countByGHRepositoryId(RandomTestUtil.nextLong());
+		_persistence.countByGHRepositoryId(StringPool.BLANK);
 
-		_persistence.countByGHRepositoryId(0L);
+		_persistence.countByGHRepositoryId(StringPool.NULL);
+
+		_persistence.countByGHRepositoryId((String)null);
 	}
 
 	@Test
@@ -189,20 +191,22 @@ public class GHAutomatorTaskPersistenceTest {
 
 	@Test
 	public void testCountByGHRID_GHTUUID() throws Exception {
-		_persistence.countByGHRID_GHTUUID(RandomTestUtil.nextLong(),
-			StringPool.BLANK);
+		_persistence.countByGHRID_GHTUUID(StringPool.BLANK, StringPool.BLANK);
 
-		_persistence.countByGHRID_GHTUUID(0L, StringPool.NULL);
+		_persistence.countByGHRID_GHTUUID(StringPool.NULL, StringPool.NULL);
 
-		_persistence.countByGHRID_GHTUUID(0L, (String)null);
+		_persistence.countByGHRID_GHTUUID((String)null, (String)null);
 	}
 
 	@Test
 	public void testCountByGHRID_E() throws Exception {
-		_persistence.countByGHRID_E(RandomTestUtil.nextLong(),
+		_persistence.countByGHRID_E(StringPool.BLANK,
 			RandomTestUtil.randomBoolean());
 
-		_persistence.countByGHRID_E(0L, RandomTestUtil.randomBoolean());
+		_persistence.countByGHRID_E(StringPool.NULL,
+			RandomTestUtil.randomBoolean());
+
+		_persistence.countByGHRID_E((String)null, RandomTestUtil.randomBoolean());
 	}
 
 	@Test
@@ -448,10 +452,10 @@ public class GHAutomatorTaskPersistenceTest {
 
 		GHAutomatorTask existingGHAutomatorTask = _persistence.findByPrimaryKey(newGHAutomatorTask.getPrimaryKey());
 
-		Assert.assertEquals(Long.valueOf(
-				existingGHAutomatorTask.getGhRepositoryId()),
-			ReflectionTestUtil.<Long>invoke(existingGHAutomatorTask,
-				"getOriginalGhRepositoryId", new Class<?>[0]));
+		Assert.assertTrue(Objects.equals(
+				existingGHAutomatorTask.getGhRepositoryId(),
+				ReflectionTestUtil.invoke(existingGHAutomatorTask,
+					"getOriginalGhRepositoryId", new Class<?>[0])));
 		Assert.assertTrue(Objects.equals(
 				existingGHAutomatorTask.getGhTaskUuid(),
 				ReflectionTestUtil.invoke(existingGHAutomatorTask,
@@ -471,7 +475,7 @@ public class GHAutomatorTaskPersistenceTest {
 
 		ghAutomatorTask.setModifiedDate(RandomTestUtil.nextDate());
 
-		ghAutomatorTask.setGhRepositoryId(RandomTestUtil.nextLong());
+		ghAutomatorTask.setGhRepositoryId(RandomTestUtil.randomString());
 
 		ghAutomatorTask.setGhTaskUuid(RandomTestUtil.randomString());
 

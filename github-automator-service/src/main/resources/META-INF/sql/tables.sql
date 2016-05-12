@@ -4,7 +4,7 @@ create table GHAutomatorTask (
 	userId LONG,
 	createDate DATE null,
 	modifiedDate DATE null,
-	ghRepositoryId LONG,
+	ghRepositoryId VARCHAR(75) null,
 	ghTaskUuid VARCHAR(75) null,
 	enabled BOOLEAN
 );
