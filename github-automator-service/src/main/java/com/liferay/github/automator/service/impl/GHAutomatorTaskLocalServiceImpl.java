@@ -1,44 +1,74 @@
-/**
- * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
- * This library is free software; you can redistribute it and/or modify it under
- * the terms of the GNU Lesser General Public License as published by the Free
- * Software Foundation; either version 2.1 of the License, or (at your option)
- * any later version.
- *
- * This library is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
- * details.
- */
-
 package com.liferay.github.automator.service.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
+import com.liferay.github.automator.internal.constants.GHAutomatorConstants;
+import com.liferay.github.automator.model.GHAutomatorTask;
 import com.liferay.github.automator.service.base.GHAutomatorTaskLocalServiceBaseImpl;
 
+import java.util.Date;
+
 /**
- * The implementation of the g h automator task local service.
- *
- * <p>
- * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link com.liferay.github.automator.service.GHAutomatorTaskLocalService} interface.
- *
- * <p>
- * This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
- * </p>
- *
- * @author Brian Wing Shun Chan
- * @see GHAutomatorTaskLocalServiceBaseImpl
- * @see com.liferay.github.automator.service.GHAutomatorTaskLocalServiceUtil
+ * @author Sergio González
  */
 @ProviderType
 public class GHAutomatorTaskLocalServiceImpl
 	extends GHAutomatorTaskLocalServiceBaseImpl {
 
-	/**
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. Always use {@link com.liferay.github.automator.service.GHAutomatorTaskLocalServiceUtil} to access the g h automator task local service.
-	 */
+	public GHAutomatorTask updateGHAutomatorRepository(
+		long userId, String repositoryId, boolean enabled) {
+
+		Date now = new Date();
+
+		GHAutomatorTask ghAutomatorTask =
+			ghAutomatorTaskPersistence.fetchByGHRID_GHTUUID(repositoryId,
+				GHAutomatorConstants.ROOT_TASK_UUID);
+
+		if (ghAutomatorTask == null) {
+			ghAutomatorTask = createGHAutomatorTask(
+				userId, now, repositoryId, GHAutomatorConstants.ROOT_TASK_UUID);
+		}
+
+		ghAutomatorTask.setModifiedDate(now);
+		ghAutomatorTask.setEnabled(enabled);
+
+		return ghAutomatorTaskPersistence.update(ghAutomatorTask);
+	}
+
+	public GHAutomatorTask updateGHAutomatorTask(
+		long userId, String repositoryId, String taskUuid, boolean enabled) {
+
+		Date now = new Date();
+
+		GHAutomatorTask ghAutomatorTask =
+			ghAutomatorTaskPersistence.fetchByGHRID_GHTUUID(
+				repositoryId, taskUuid);
+
+		if (ghAutomatorTask == null) {
+			ghAutomatorTask = createGHAutomatorTask(
+				userId, now, repositoryId, taskUuid);
+		}
+
+		ghAutomatorTask.setModifiedDate(now);
+		ghAutomatorTask.setEnabled(enabled);
+
+		return ghAutomatorTaskPersistence.update(ghAutomatorTask);
+	}
+
+	protected GHAutomatorTask createGHAutomatorTask(
+		long userId, Date createDate, String repositoryId, String taskUuid) {
+
+		long ghAutomatorTaskId = counterLocalService.increment();
+
+		GHAutomatorTask ghAutomatorTask = ghAutomatorTaskPersistence.create(
+			ghAutomatorTaskId);
+
+		ghAutomatorTask.setUserId(userId);
+		ghAutomatorTask.setCreateDate(createDate);
+		ghAutomatorTask.setGhRepositoryId(repositoryId);
+		ghAutomatorTask.setGhTaskUuid(taskUuid);
+
+		return ghAutomatorTask;
+	}
+
 }
