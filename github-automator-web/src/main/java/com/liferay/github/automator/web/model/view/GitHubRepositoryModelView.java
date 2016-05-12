@@ -10,11 +10,11 @@ public class GitHubRepositoryModelView {
 		String repositoryDescription, String ownerLogin,
 		String ownerAvatarURL) {
 
-		_ownerAvatarURL = ownerAvatarURL;
-		_ownerLogin = ownerLogin;
-		_repositoryDescription = repositoryDescription;
 		_repositoryId = repositoryId;
 		_repositoryName = repositoryName;
+		_repositoryDescription = repositoryDescription;
+		_ownerLogin = ownerLogin;
+		_ownerAvatarURL = ownerAvatarURL;
 	}
 
 	public String getOwnerAvatarURL() {

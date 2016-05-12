@@ -2,8 +2,6 @@ package com.liferay.github.automator.web.portlet.action;
 
 import com.liferay.github.automator.service.GHAutomatorTaskLocalService;
 import com.liferay.github.automator.web.constants.GitHubAutomatorPortletKeys;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -53,7 +51,7 @@ public class UpdateRepositoryStatusMVCActionCommand
 
 			boolean enabled = GetterUtil.getBoolean(
 				repositoryStatusProperties.getProperty(
-				repositoryStatusPropertyKey));
+					repositoryStatusPropertyKey));
 
 			ghAutomatorTaskLocalService.updateGHAutomatorRepository(
 				themeDisplay.getUserId(), repositoryStatusPropertyKey, enabled);

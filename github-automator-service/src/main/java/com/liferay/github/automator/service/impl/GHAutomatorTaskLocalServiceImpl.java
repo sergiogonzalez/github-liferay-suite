@@ -21,8 +21,8 @@ public class GHAutomatorTaskLocalServiceImpl
 		Date now = new Date();
 
 		GHAutomatorTask ghAutomatorTask =
-			ghAutomatorTaskPersistence.fetchByGHRID_GHTUUID(repositoryId,
-				GHAutomatorConstants.ROOT_TASK_UUID);
+			ghAutomatorTaskPersistence.fetchByGHRID_GHTUUID(
+				repositoryId, GHAutomatorConstants.ROOT_TASK_UUID);
 
 		if (ghAutomatorTask == null) {
 			ghAutomatorTask = createGHAutomatorTask(
