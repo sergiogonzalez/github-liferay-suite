@@ -18,8 +18,6 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.CacheModel;
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.SetUtil;
@@ -33,7 +31,6 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 import java.io.Serializable;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -3488,29 +3485,6 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 			ghAutomatorTask.setUuid(uuid);
 		}
 
-		ServiceContext serviceContext = ServiceContextThreadLocal.getServiceContext();
-
-		Date now = new Date();
-
-		if (isNew && (ghAutomatorTask.getCreateDate() == null)) {
-			if (serviceContext == null) {
-				ghAutomatorTask.setCreateDate(now);
-			}
-			else {
-				ghAutomatorTask.setCreateDate(serviceContext.getCreateDate(now));
-			}
-		}
-
-		if (!ghAutomatorTaskModelImpl.hasSetModifiedDate()) {
-			if (serviceContext == null) {
-				ghAutomatorTask.setModifiedDate(now);
-			}
-			else {
-				ghAutomatorTask.setModifiedDate(serviceContext.getModifiedDate(
-						now));
-			}
-		}
-
 		Session session = null;
 
 		try {
@@ -3661,7 +3635,6 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 		ghAutomatorTaskImpl.setGhAutomatorTaskId(ghAutomatorTask.getGhAutomatorTaskId());
 		ghAutomatorTaskImpl.setUserId(ghAutomatorTask.getUserId());
 		ghAutomatorTaskImpl.setCreateDate(ghAutomatorTask.getCreateDate());
-		ghAutomatorTaskImpl.setModifiedDate(ghAutomatorTask.getModifiedDate());
 		ghAutomatorTaskImpl.setGhRepositoryId(ghAutomatorTask.getGhRepositoryId());
 		ghAutomatorTaskImpl.setGhTaskUuid(ghAutomatorTask.getGhTaskUuid());
 		ghAutomatorTaskImpl.setEnabled(ghAutomatorTask.isEnabled());

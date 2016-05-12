@@ -48,7 +48,6 @@ public class GHAutomatorTaskWrapper implements GHAutomatorTask,
 		attributes.put("ghAutomatorTaskId", getGhAutomatorTaskId());
 		attributes.put("userId", getUserId());
 		attributes.put("createDate", getCreateDate());
-		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("ghRepositoryId", getGhRepositoryId());
 		attributes.put("ghTaskUuid", getGhTaskUuid());
 		attributes.put("enabled", getEnabled());
@@ -80,12 +79,6 @@ public class GHAutomatorTaskWrapper implements GHAutomatorTask,
 
 		if (createDate != null) {
 			setCreateDate(createDate);
-		}
-
-		Date modifiedDate = (Date)attributes.get("modifiedDate");
-
-		if (modifiedDate != null) {
-			setModifiedDate(modifiedDate);
 		}
 
 		String ghRepositoryId = (String)attributes.get("ghRepositoryId");
@@ -243,16 +236,6 @@ public class GHAutomatorTaskWrapper implements GHAutomatorTask,
 	}
 
 	/**
-	* Returns the modified date of this g h automator task.
-	*
-	* @return the modified date of this g h automator task
-	*/
-	@Override
-	public Date getModifiedDate() {
-		return _ghAutomatorTask.getModifiedDate();
-	}
-
-	/**
 	* Returns the gh automator task ID of this g h automator task.
 	*
 	* @return the gh automator task ID of this g h automator task
@@ -356,16 +339,6 @@ public class GHAutomatorTaskWrapper implements GHAutomatorTask,
 	@Override
 	public void setGhTaskUuid(java.lang.String ghTaskUuid) {
 		_ghAutomatorTask.setGhTaskUuid(ghTaskUuid);
-	}
-
-	/**
-	* Sets the modified date of this g h automator task.
-	*
-	* @param modifiedDate the modified date of this g h automator task
-	*/
-	@Override
-	public void setModifiedDate(Date modifiedDate) {
-		_ghAutomatorTask.setModifiedDate(modifiedDate);
 	}
 
 	@Override

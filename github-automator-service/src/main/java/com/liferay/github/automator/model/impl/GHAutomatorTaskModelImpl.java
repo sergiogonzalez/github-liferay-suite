@@ -55,7 +55,6 @@ public class GHAutomatorTaskModelImpl extends BaseModelImpl<GHAutomatorTask>
 			{ "ghAutomatorTaskId", Types.BIGINT },
 			{ "userId", Types.BIGINT },
 			{ "createDate", Types.TIMESTAMP },
-			{ "modifiedDate", Types.TIMESTAMP },
 			{ "ghRepositoryId", Types.VARCHAR },
 			{ "ghTaskUuid", Types.VARCHAR },
 			{ "enabled", Types.BOOLEAN }
@@ -67,13 +66,12 @@ public class GHAutomatorTaskModelImpl extends BaseModelImpl<GHAutomatorTask>
 		TABLE_COLUMNS_MAP.put("ghAutomatorTaskId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("ghRepositoryId", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("ghTaskUuid", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("enabled", Types.BOOLEAN);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table GHAutomatorTask (uuid_ VARCHAR(75) null,ghAutomatorTaskId LONG not null primary key,userId LONG,createDate DATE null,modifiedDate DATE null,ghRepositoryId VARCHAR(75) null,ghTaskUuid VARCHAR(75) null,enabled BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table GHAutomatorTask (uuid_ VARCHAR(75) null,ghAutomatorTaskId LONG not null primary key,userId LONG,createDate DATE null,ghRepositoryId VARCHAR(75) null,ghTaskUuid VARCHAR(75) null,enabled BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table GHAutomatorTask";
 	public static final String ORDER_BY_JPQL = " ORDER BY ghAutomatorTask.ghAutomatorTaskId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY GHAutomatorTask.ghAutomatorTaskId ASC";
@@ -138,7 +136,6 @@ public class GHAutomatorTaskModelImpl extends BaseModelImpl<GHAutomatorTask>
 		attributes.put("ghAutomatorTaskId", getGhAutomatorTaskId());
 		attributes.put("userId", getUserId());
 		attributes.put("createDate", getCreateDate());
-		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("ghRepositoryId", getGhRepositoryId());
 		attributes.put("ghTaskUuid", getGhTaskUuid());
 		attributes.put("enabled", getEnabled());
@@ -173,12 +170,6 @@ public class GHAutomatorTaskModelImpl extends BaseModelImpl<GHAutomatorTask>
 
 		if (createDate != null) {
 			setCreateDate(createDate);
-		}
-
-		Date modifiedDate = (Date)attributes.get("modifiedDate");
-
-		if (modifiedDate != null) {
-			setModifiedDate(modifiedDate);
 		}
 
 		String ghRepositoryId = (String)attributes.get("ghRepositoryId");
@@ -267,22 +258,6 @@ public class GHAutomatorTaskModelImpl extends BaseModelImpl<GHAutomatorTask>
 	@Override
 	public void setCreateDate(Date createDate) {
 		_createDate = createDate;
-	}
-
-	@Override
-	public Date getModifiedDate() {
-		return _modifiedDate;
-	}
-
-	public boolean hasSetModifiedDate() {
-		return _setModifiedDate;
-	}
-
-	@Override
-	public void setModifiedDate(Date modifiedDate) {
-		_setModifiedDate = true;
-
-		_modifiedDate = modifiedDate;
 	}
 
 	@Override
@@ -397,7 +372,6 @@ public class GHAutomatorTaskModelImpl extends BaseModelImpl<GHAutomatorTask>
 		ghAutomatorTaskImpl.setGhAutomatorTaskId(getGhAutomatorTaskId());
 		ghAutomatorTaskImpl.setUserId(getUserId());
 		ghAutomatorTaskImpl.setCreateDate(getCreateDate());
-		ghAutomatorTaskImpl.setModifiedDate(getModifiedDate());
 		ghAutomatorTaskImpl.setGhRepositoryId(getGhRepositoryId());
 		ghAutomatorTaskImpl.setGhTaskUuid(getGhTaskUuid());
 		ghAutomatorTaskImpl.setEnabled(getEnabled());
@@ -465,8 +439,6 @@ public class GHAutomatorTaskModelImpl extends BaseModelImpl<GHAutomatorTask>
 
 		ghAutomatorTaskModelImpl._originalUuid = ghAutomatorTaskModelImpl._uuid;
 
-		ghAutomatorTaskModelImpl._setModifiedDate = false;
-
 		ghAutomatorTaskModelImpl._originalGhRepositoryId = ghAutomatorTaskModelImpl._ghRepositoryId;
 
 		ghAutomatorTaskModelImpl._originalGhTaskUuid = ghAutomatorTaskModelImpl._ghTaskUuid;
@@ -503,15 +475,6 @@ public class GHAutomatorTaskModelImpl extends BaseModelImpl<GHAutomatorTask>
 			ghAutomatorTaskCacheModel.createDate = Long.MIN_VALUE;
 		}
 
-		Date modifiedDate = getModifiedDate();
-
-		if (modifiedDate != null) {
-			ghAutomatorTaskCacheModel.modifiedDate = modifiedDate.getTime();
-		}
-		else {
-			ghAutomatorTaskCacheModel.modifiedDate = Long.MIN_VALUE;
-		}
-
 		ghAutomatorTaskCacheModel.ghRepositoryId = getGhRepositoryId();
 
 		String ghRepositoryId = ghAutomatorTaskCacheModel.ghRepositoryId;
@@ -535,7 +498,7 @@ public class GHAutomatorTaskModelImpl extends BaseModelImpl<GHAutomatorTask>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -545,8 +508,6 @@ public class GHAutomatorTaskModelImpl extends BaseModelImpl<GHAutomatorTask>
 		sb.append(getUserId());
 		sb.append(", createDate=");
 		sb.append(getCreateDate());
-		sb.append(", modifiedDate=");
-		sb.append(getModifiedDate());
 		sb.append(", ghRepositoryId=");
 		sb.append(getGhRepositoryId());
 		sb.append(", ghTaskUuid=");
@@ -560,7 +521,7 @@ public class GHAutomatorTaskModelImpl extends BaseModelImpl<GHAutomatorTask>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(28);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("<model><model-name>");
 		sb.append("com.liferay.github.automator.model.GHAutomatorTask");
@@ -581,10 +542,6 @@ public class GHAutomatorTaskModelImpl extends BaseModelImpl<GHAutomatorTask>
 		sb.append(
 			"<column><column-name>createDate</column-name><column-value><![CDATA[");
 		sb.append(getCreateDate());
-		sb.append("]]></column-value></column>");
-		sb.append(
-			"<column><column-name>modifiedDate</column-name><column-value><![CDATA[");
-		sb.append(getModifiedDate());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>ghRepositoryId</column-name><column-value><![CDATA[");
@@ -613,8 +570,6 @@ public class GHAutomatorTaskModelImpl extends BaseModelImpl<GHAutomatorTask>
 	private long _ghAutomatorTaskId;
 	private long _userId;
 	private Date _createDate;
-	private Date _modifiedDate;
-	private boolean _setModifiedDate;
 	private String _ghRepositoryId;
 	private String _originalGhRepositoryId;
 	private String _ghTaskUuid;

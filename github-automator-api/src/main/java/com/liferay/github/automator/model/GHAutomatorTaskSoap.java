@@ -23,7 +23,6 @@ public class GHAutomatorTaskSoap implements Serializable {
 		soapModel.setGhAutomatorTaskId(model.getGhAutomatorTaskId());
 		soapModel.setUserId(model.getUserId());
 		soapModel.setCreateDate(model.getCreateDate());
-		soapModel.setModifiedDate(model.getModifiedDate());
 		soapModel.setGhRepositoryId(model.getGhRepositoryId());
 		soapModel.setGhTaskUuid(model.getGhTaskUuid());
 		soapModel.setEnabled(model.getEnabled());
@@ -113,14 +112,6 @@ public class GHAutomatorTaskSoap implements Serializable {
 		_createDate = createDate;
 	}
 
-	public Date getModifiedDate() {
-		return _modifiedDate;
-	}
-
-	public void setModifiedDate(Date modifiedDate) {
-		_modifiedDate = modifiedDate;
-	}
-
 	public String getGhRepositoryId() {
 		return _ghRepositoryId;
 	}
@@ -153,7 +144,6 @@ public class GHAutomatorTaskSoap implements Serializable {
 	private long _ghAutomatorTaskId;
 	private long _userId;
 	private Date _createDate;
-	private Date _modifiedDate;
 	private String _ghRepositoryId;
 	private String _ghTaskUuid;
 	private boolean _enabled;

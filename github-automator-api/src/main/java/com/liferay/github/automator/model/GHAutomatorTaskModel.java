@@ -120,20 +120,6 @@ public interface GHAutomatorTaskModel extends BaseModel<GHAutomatorTask> {
 	public void setCreateDate(Date createDate);
 
 	/**
-	 * Returns the modified date of this g h automator task.
-	 *
-	 * @return the modified date of this g h automator task
-	 */
-	public Date getModifiedDate();
-
-	/**
-	 * Sets the modified date of this g h automator task.
-	 *
-	 * @param modifiedDate the modified date of this g h automator task
-	 */
-	public void setModifiedDate(Date modifiedDate);
-
-	/**
 	 * Returns the gh repository ID of this g h automator task.
 	 *
 	 * @return the gh repository ID of this g h automator task

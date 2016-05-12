@@ -116,8 +116,6 @@ public class GHAutomatorTaskPersistenceTest {
 
 		newGHAutomatorTask.setCreateDate(RandomTestUtil.nextDate());
 
-		newGHAutomatorTask.setModifiedDate(RandomTestUtil.nextDate());
-
 		newGHAutomatorTask.setGhRepositoryId(RandomTestUtil.randomString());
 
 		newGHAutomatorTask.setGhTaskUuid(RandomTestUtil.randomString());
@@ -137,9 +135,6 @@ public class GHAutomatorTaskPersistenceTest {
 		Assert.assertEquals(Time.getShortTimestamp(
 				existingGHAutomatorTask.getCreateDate()),
 			Time.getShortTimestamp(newGHAutomatorTask.getCreateDate()));
-		Assert.assertEquals(Time.getShortTimestamp(
-				existingGHAutomatorTask.getModifiedDate()),
-			Time.getShortTimestamp(newGHAutomatorTask.getModifiedDate()));
 		Assert.assertEquals(existingGHAutomatorTask.getGhRepositoryId(),
 			newGHAutomatorTask.getGhRepositoryId());
 		Assert.assertEquals(existingGHAutomatorTask.getGhTaskUuid(),
@@ -232,8 +227,7 @@ public class GHAutomatorTaskPersistenceTest {
 	protected OrderByComparator<GHAutomatorTask> getOrderByComparator() {
 		return OrderByComparatorFactoryUtil.create("GHAutomatorTask", "uuid",
 			true, "ghAutomatorTaskId", true, "userId", true, "createDate",
-			true, "modifiedDate", true, "ghRepositoryId", true, "ghTaskUuid",
-			true, "enabled", true);
+			true, "ghRepositoryId", true, "ghTaskUuid", true, "enabled", true);
 	}
 
 	@Test
@@ -458,8 +452,6 @@ public class GHAutomatorTaskPersistenceTest {
 		ghAutomatorTask.setUserId(RandomTestUtil.nextLong());
 
 		ghAutomatorTask.setCreateDate(RandomTestUtil.nextDate());
-
-		ghAutomatorTask.setModifiedDate(RandomTestUtil.nextDate());
 
 		ghAutomatorTask.setGhRepositoryId(RandomTestUtil.randomString());
 

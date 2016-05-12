@@ -52,7 +52,7 @@ public class GHAutomatorTaskCacheModel implements CacheModel<GHAutomatorTask>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -62,8 +62,6 @@ public class GHAutomatorTaskCacheModel implements CacheModel<GHAutomatorTask>,
 		sb.append(userId);
 		sb.append(", createDate=");
 		sb.append(createDate);
-		sb.append(", modifiedDate=");
-		sb.append(modifiedDate);
 		sb.append(", ghRepositoryId=");
 		sb.append(ghRepositoryId);
 		sb.append(", ghTaskUuid=");
@@ -96,13 +94,6 @@ public class GHAutomatorTaskCacheModel implements CacheModel<GHAutomatorTask>,
 			ghAutomatorTaskImpl.setCreateDate(new Date(createDate));
 		}
 
-		if (modifiedDate == Long.MIN_VALUE) {
-			ghAutomatorTaskImpl.setModifiedDate(null);
-		}
-		else {
-			ghAutomatorTaskImpl.setModifiedDate(new Date(modifiedDate));
-		}
-
 		if (ghRepositoryId == null) {
 			ghAutomatorTaskImpl.setGhRepositoryId(StringPool.BLANK);
 		}
@@ -132,7 +123,6 @@ public class GHAutomatorTaskCacheModel implements CacheModel<GHAutomatorTask>,
 
 		userId = objectInput.readLong();
 		createDate = objectInput.readLong();
-		modifiedDate = objectInput.readLong();
 		ghRepositoryId = objectInput.readUTF();
 		ghTaskUuid = objectInput.readUTF();
 
@@ -153,7 +143,6 @@ public class GHAutomatorTaskCacheModel implements CacheModel<GHAutomatorTask>,
 
 		objectOutput.writeLong(userId);
 		objectOutput.writeLong(createDate);
-		objectOutput.writeLong(modifiedDate);
 
 		if (ghRepositoryId == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -176,7 +165,6 @@ public class GHAutomatorTaskCacheModel implements CacheModel<GHAutomatorTask>,
 	public long ghAutomatorTaskId;
 	public long userId;
 	public long createDate;
-	public long modifiedDate;
 	public String ghRepositoryId;
 	public String ghTaskUuid;
 	public boolean enabled;
