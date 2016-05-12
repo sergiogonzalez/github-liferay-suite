@@ -2,16 +2,19 @@ package com.liferay.github.automator.web.portlet.action;
 
 import com.liferay.github.automator.web.constants.GitHubAutomatorPortletKeys;
 import com.liferay.github.automator.web.constants.GitHubAutomatorWebKeys;
+import com.liferay.github.automator.web.model.view.GitHubRepositoryModelView;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.io.IOException;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.eclipse.egit.github.core.Repository;
+import org.eclipse.egit.github.core.User;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.RepositoryService;
 
@@ -47,7 +51,7 @@ public class ViewMVCRenderCommand implements MVCRenderCommand {
 		RenderRequest renderRequest, RenderResponse renderResponse) {
 
 		renderRequest.setAttribute(
-			GitHubAutomatorWebKeys.GITHUB_REPOSITORIES,
+			GitHubAutomatorWebKeys.GITHUB_REPOSITORY_MODEL_VIEWS,
 			getRepositories(renderRequest));
 
 		return "/view.jsp";
@@ -66,7 +70,35 @@ public class ViewMVCRenderCommand implements MVCRenderCommand {
 			session.getAttribute(GitHubAutomatorWebKeys.GITHUB_ACCESS_TOKEN));
 	}
 
-	protected List<Repository> getRepositories(RenderRequest renderRequest) {
+	protected List<GitHubRepositoryModelView> getGitHubRepositoryModelView(
+		List<Repository> gitHubRepositories) {
+
+		if (ListUtil.isEmpty(gitHubRepositories)) {
+			return Collections.emptyList();
+		}
+
+		List<GitHubRepositoryModelView> gitHubRepositoryModelViews =
+			new ArrayList<>();
+
+		for (Repository gitHubRepository : gitHubRepositories) {
+			User owner = gitHubRepository.getOwner();
+
+			GitHubRepositoryModelView gitHubRepositoryModelView =
+				new GitHubRepositoryModelView(
+					String.valueOf(gitHubRepository.getId()),
+					gitHubRepository.getName(),
+					gitHubRepository.getDescription(), owner.getLogin(),
+					owner.getAvatarUrl());
+
+			gitHubRepositoryModelViews.add(gitHubRepositoryModelView);
+		}
+
+		return gitHubRepositoryModelViews;
+	}
+
+	protected List<GitHubRepositoryModelView> getRepositories(
+		RenderRequest renderRequest) {
+
 		String accessToken = getAccessToken(renderRequest);
 
 		if (Validator.isNull(accessToken)) {
@@ -96,7 +128,8 @@ public class ViewMVCRenderCommand implements MVCRenderCommand {
 		}
 
 		try {
-			return repositoryService.getRepositories(filterData);
+			return getGitHubRepositoryModelView(
+				repositoryService.getRepositories(filterData));
 		}
 		catch (IOException ioe) {
 			_log.error("Cannot obtain GitHub repositories");
