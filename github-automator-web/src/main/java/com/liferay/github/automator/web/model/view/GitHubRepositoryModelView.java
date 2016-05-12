@@ -7,12 +7,13 @@ public class GitHubRepositoryModelView {
 
 	public GitHubRepositoryModelView(
 		String repositoryId, String repositoryName,
-		String repositoryDescription, String ownerLogin,
+		String repositoryDescription, boolean enabled, String ownerLogin,
 		String ownerAvatarURL) {
 
 		_repositoryId = repositoryId;
 		_repositoryName = repositoryName;
 		_repositoryDescription = repositoryDescription;
+		_enabled = enabled;
 		_ownerLogin = ownerLogin;
 		_ownerAvatarURL = ownerAvatarURL;
 	}
@@ -37,6 +38,11 @@ public class GitHubRepositoryModelView {
 		return _repositoryName;
 	}
 
+	public boolean isEnabled() {
+		return _enabled;
+	}
+
+	private final boolean _enabled;
 	private final String _ownerAvatarURL;
 	private final String _ownerLogin;
 	private final String _repositoryDescription;

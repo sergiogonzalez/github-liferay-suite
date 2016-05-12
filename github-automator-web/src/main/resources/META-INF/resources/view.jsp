@@ -81,7 +81,12 @@ portletURL.setParameter("navigation", navigation);
 					</c:if>
 
 					<div style="margin-bottom: -20px;">
-						<aui:input iconOff="icon-remove" iconOn="icon-ok" label="" labelOff="" labelOn="" name='<%= "repositoryStatus--" + gitHubRepositoryModelView.getRepositoryId() + "--" %>' type="toggle-switch" />
+
+						<%
+						boolean repositoryEnabled = ParamUtil.getBoolean(request, "repositoryStatus--" + gitHubRepositoryModelView.getRepositoryId() + "--", gitHubRepositoryModelView.isEnabled());
+						%>
+
+						<aui:input iconOff="icon-remove" iconOn="icon-ok" label="" labelOff="" labelOn="" name='<%= "repositoryStatus--" + gitHubRepositoryModelView.getRepositoryId() + "--" %>' type="toggle-switch" value="<%= repositoryEnabled %>" />
 					</div>
 				</div>
 

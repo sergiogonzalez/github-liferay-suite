@@ -1,5 +1,6 @@
 package com.liferay.github.automator.web.portlet.action;
 
+import com.liferay.github.automator.service.GHAutomatorTaskLocalService;
 import com.liferay.github.automator.web.constants.GitHubAutomatorPortletKeys;
 import com.liferay.github.automator.web.constants.GitHubAutomatorWebKeys;
 import com.liferay.github.automator.web.model.view.GitHubRepositoryModelView;
@@ -32,6 +33,7 @@ import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.RepositoryService;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Sergio González
@@ -83,12 +85,16 @@ public class ViewMVCRenderCommand implements MVCRenderCommand {
 		for (Repository gitHubRepository : gitHubRepositories) {
 			User owner = gitHubRepository.getOwner();
 
+			boolean enabled =
+				ghAutomatorTaskLocalService.isGHAutomatorRepositoryEnabled(
+					String.valueOf(gitHubRepository.getId()));
+
 			GitHubRepositoryModelView gitHubRepositoryModelView =
 				new GitHubRepositoryModelView(
 					String.valueOf(gitHubRepository.getId()),
 					gitHubRepository.getName(),
-					gitHubRepository.getDescription(), owner.getLogin(),
-					owner.getAvatarUrl());
+					gitHubRepository.getDescription(), enabled,
+					owner.getLogin(), owner.getAvatarUrl());
 
 			gitHubRepositoryModelViews.add(gitHubRepositoryModelView);
 		}
@@ -137,6 +143,9 @@ public class ViewMVCRenderCommand implements MVCRenderCommand {
 
 		return Collections.emptyList();
 	}
+
+	@Reference
+	protected GHAutomatorTaskLocalService ghAutomatorTaskLocalService;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		ViewMVCRenderCommand.class);
