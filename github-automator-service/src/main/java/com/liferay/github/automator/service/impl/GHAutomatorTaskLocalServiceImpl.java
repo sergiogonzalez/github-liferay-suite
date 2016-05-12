@@ -49,7 +49,6 @@ public class GHAutomatorTaskLocalServiceImpl
 			ghAutomatorTask.setGhTaskUuid(taskUuid);
 		}
 
-		ghAutomatorTask.setModifiedDate(now);
 		ghAutomatorTask.setEnabled(enabled);
 
 		return ghAutomatorTaskPersistence.update(ghAutomatorTask);
