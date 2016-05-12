@@ -1,0 +1,9 @@
+Bundle-Name: GitHub Automator Service
+Bundle-SymbolicName: com.liferay.github.automator.service
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.liferay.github.automator.model.impl,\
+	com.liferay.github.automator.service.permission,\
+	com.liferay.github.automator.service.util
+Liferay-Require-SchemaVersion: 1.0.0
+Liferay-Service: true
