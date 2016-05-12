@@ -47,9 +47,6 @@ public interface GHAutomatorTaskLocalService extends BaseLocalService,
 	 * Never modify or reference this interface directly. Always use {@link GHAutomatorTaskLocalServiceUtil} to access the g h automator task local service. Add custom service methods to {@link com.liferay.github.automator.service.impl.GHAutomatorTaskLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public boolean isGHAutomatorRepositoryEnabled(java.lang.String repositoryId);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public boolean isGHAutomatorTaskEnabled(java.lang.String repositoryId,
 		java.lang.String taskUuid);
 
@@ -104,9 +101,6 @@ public interface GHAutomatorTaskLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public GHAutomatorTask getGHAutomatorTask(long ghAutomatorTaskId)
 		throws PortalException;
-
-	public GHAutomatorTask updateGHAutomatorRepository(long userId,
-		java.lang.String repositoryId, boolean enabled);
 
 	/**
 	* Updates the g h automator task in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.

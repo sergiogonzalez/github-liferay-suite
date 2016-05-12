@@ -27,11 +27,6 @@ public class GHAutomatorTaskLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to {@link com.liferay.github.automator.service.impl.GHAutomatorTaskLocalServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static boolean isGHAutomatorRepositoryEnabled(
-		java.lang.String repositoryId) {
-		return getService().isGHAutomatorRepositoryEnabled(repositoryId);
-	}
-
 	public static boolean isGHAutomatorTaskEnabled(
 		java.lang.String repositoryId, java.lang.String taskUuid) {
 		return getService().isGHAutomatorTaskEnabled(repositoryId, taskUuid);
@@ -99,12 +94,6 @@ public class GHAutomatorTaskLocalServiceUtil {
 		long ghAutomatorTaskId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getGHAutomatorTask(ghAutomatorTaskId);
-	}
-
-	public static com.liferay.github.automator.model.GHAutomatorTask updateGHAutomatorRepository(
-		long userId, java.lang.String repositoryId, boolean enabled) {
-		return getService()
-				   .updateGHAutomatorRepository(userId, repositoryId, enabled);
 	}
 
 	/**

@@ -21,11 +21,6 @@ public class GHAutomatorTaskLocalServiceWrapper
 	}
 
 	@Override
-	public boolean isGHAutomatorRepositoryEnabled(java.lang.String repositoryId) {
-		return _ghAutomatorTaskLocalService.isGHAutomatorRepositoryEnabled(repositoryId);
-	}
-
-	@Override
 	public boolean isGHAutomatorTaskEnabled(java.lang.String repositoryId,
 		java.lang.String taskUuid) {
 		return _ghAutomatorTaskLocalService.isGHAutomatorTaskEnabled(repositoryId,
@@ -100,13 +95,6 @@ public class GHAutomatorTaskLocalServiceWrapper
 		long ghAutomatorTaskId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _ghAutomatorTaskLocalService.getGHAutomatorTask(ghAutomatorTaskId);
-	}
-
-	@Override
-	public com.liferay.github.automator.model.GHAutomatorTask updateGHAutomatorRepository(
-		long userId, java.lang.String repositoryId, boolean enabled) {
-		return _ghAutomatorTaskLocalService.updateGHAutomatorRepository(userId,
-			repositoryId, enabled);
 	}
 
 	/**

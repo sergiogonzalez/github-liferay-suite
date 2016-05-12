@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean class="com.liferay.github.automator.service.impl.GHAutomatorRepositoryLocalServiceImpl" id="com.liferay.github.automator.service.GHAutomatorRepositoryLocalService" />
+	<bean class="com.liferay.github.automator.service.persistence.impl.GHAutomatorRepositoryPersistenceImpl" id="com.liferay.github.automator.service.persistence.GHAutomatorRepositoryPersistence" parent="basePersistence" />
 	<bean class="com.liferay.github.automator.service.impl.GHAutomatorTaskLocalServiceImpl" id="com.liferay.github.automator.service.GHAutomatorTaskLocalService" />
 	<bean class="com.liferay.github.automator.service.persistence.impl.GHAutomatorTaskPersistenceImpl" id="com.liferay.github.automator.service.persistence.GHAutomatorTaskPersistence" parent="basePersistence" />
 </beans>
