@@ -7,7 +7,12 @@ import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.util.Accessor;
 
 /**
+ * The extended model interface for the GHAutomatorTask service. Represents a row in the &quot;GHAutomatorTask&quot; database table, with each column mapped to a property of this class.
+ *
  * @author Sergio González
+ * @see GHAutomatorTaskModel
+ * @see com.liferay.github.automator.model.impl.GHAutomatorTaskImpl
+ * @see com.liferay.github.automator.model.impl.GHAutomatorTaskModelImpl
  * @generated
  */
 @ImplementationClassName("com.liferay.github.automator.model.impl.GHAutomatorTaskImpl")
