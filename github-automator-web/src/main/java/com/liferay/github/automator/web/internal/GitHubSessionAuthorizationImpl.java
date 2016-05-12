@@ -17,10 +17,11 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(
 	configurationPid = "com.liferay.portal.security.sso.github.configuration.GitHubAuthorizationConfiguration",
-	immediate = true, service = GitHubAuthorization.class,
+	immediate = true,
 	property = {
 		"github.session.authorization=automator", "service.ranking:Integer=100"
-	}
+	},
+	service = GitHubAuthorization.class
 )
 public class GitHubSessionAuthorizationImpl implements GitHubAuthorization {
 
