@@ -27,11 +27,13 @@ import aQute.bnd.annotation.ProviderType;
  */
 @ProviderType
 public class GHAutomatorTaskImpl extends GHAutomatorTaskBaseImpl {
-	/*
+
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. All methods that expect a g h automator task model instance should use the {@link com.liferay.github.automator.model.GHAutomatorTask} interface instead.
 	 */
 	public GHAutomatorTaskImpl() {
 	}
+
 }

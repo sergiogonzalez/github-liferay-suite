@@ -35,7 +35,8 @@ import com.liferay.github.automator.service.base.GHAutomatorTaskLocalServiceBase
 @ProviderType
 public class GHAutomatorTaskLocalServiceImpl
 	extends GHAutomatorTaskLocalServiceBaseImpl {
-	/*
+
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. Always use {@link com.liferay.github.automator.service.GHAutomatorTaskLocalServiceUtil} to access the g h automator task local service.
