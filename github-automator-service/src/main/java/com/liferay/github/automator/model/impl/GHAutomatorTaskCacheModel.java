@@ -1,0 +1,188 @@
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
+package com.liferay.github.automator.model.impl;
+
+import aQute.bnd.annotation.ProviderType;
+
+import com.liferay.github.automator.model.GHAutomatorTask;
+
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.util.HashUtil;
+import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringPool;
+
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+
+import java.util.Date;
+
+/**
+ * The cache model class for representing GHAutomatorTask in entity cache.
+ *
+ * @author Brian Wing Shun Chan
+ * @see GHAutomatorTask
+ * @generated
+ */
+@ProviderType
+public class GHAutomatorTaskCacheModel implements CacheModel<GHAutomatorTask>,
+	Externalizable {
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+
+		if (!(obj instanceof GHAutomatorTaskCacheModel)) {
+			return false;
+		}
+
+		GHAutomatorTaskCacheModel ghAutomatorTaskCacheModel = (GHAutomatorTaskCacheModel)obj;
+
+		if (ghAutomatorTaskId == ghAutomatorTaskCacheModel.ghAutomatorTaskId) {
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return HashUtil.hash(0, ghAutomatorTaskId);
+	}
+
+	@Override
+	public String toString() {
+		StringBundler sb = new StringBundler(17);
+
+		sb.append("{uuid=");
+		sb.append(uuid);
+		sb.append(", ghAutomatorTaskId=");
+		sb.append(ghAutomatorTaskId);
+		sb.append(", userId=");
+		sb.append(userId);
+		sb.append(", createDate=");
+		sb.append(createDate);
+		sb.append(", modifiedDate=");
+		sb.append(modifiedDate);
+		sb.append(", ghRepositoryId=");
+		sb.append(ghRepositoryId);
+		sb.append(", ghTaskUuid=");
+		sb.append(ghTaskUuid);
+		sb.append(", enabled=");
+		sb.append(enabled);
+		sb.append("}");
+
+		return sb.toString();
+	}
+
+	@Override
+	public GHAutomatorTask toEntityModel() {
+		GHAutomatorTaskImpl ghAutomatorTaskImpl = new GHAutomatorTaskImpl();
+
+		if (uuid == null) {
+			ghAutomatorTaskImpl.setUuid(StringPool.BLANK);
+		}
+		else {
+			ghAutomatorTaskImpl.setUuid(uuid);
+		}
+
+		ghAutomatorTaskImpl.setGhAutomatorTaskId(ghAutomatorTaskId);
+		ghAutomatorTaskImpl.setUserId(userId);
+
+		if (createDate == Long.MIN_VALUE) {
+			ghAutomatorTaskImpl.setCreateDate(null);
+		}
+		else {
+			ghAutomatorTaskImpl.setCreateDate(new Date(createDate));
+		}
+
+		if (modifiedDate == Long.MIN_VALUE) {
+			ghAutomatorTaskImpl.setModifiedDate(null);
+		}
+		else {
+			ghAutomatorTaskImpl.setModifiedDate(new Date(modifiedDate));
+		}
+
+		ghAutomatorTaskImpl.setGhRepositoryId(ghRepositoryId);
+
+		if (ghTaskUuid == null) {
+			ghAutomatorTaskImpl.setGhTaskUuid(StringPool.BLANK);
+		}
+		else {
+			ghAutomatorTaskImpl.setGhTaskUuid(ghTaskUuid);
+		}
+
+		ghAutomatorTaskImpl.setEnabled(enabled);
+
+		ghAutomatorTaskImpl.resetOriginalValues();
+
+		return ghAutomatorTaskImpl;
+	}
+
+	@Override
+	public void readExternal(ObjectInput objectInput) throws IOException {
+		uuid = objectInput.readUTF();
+
+		ghAutomatorTaskId = objectInput.readLong();
+
+		userId = objectInput.readLong();
+		createDate = objectInput.readLong();
+		modifiedDate = objectInput.readLong();
+
+		ghRepositoryId = objectInput.readLong();
+		ghTaskUuid = objectInput.readUTF();
+
+		enabled = objectInput.readBoolean();
+	}
+
+	@Override
+	public void writeExternal(ObjectOutput objectOutput)
+		throws IOException {
+		if (uuid == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(uuid);
+		}
+
+		objectOutput.writeLong(ghAutomatorTaskId);
+
+		objectOutput.writeLong(userId);
+		objectOutput.writeLong(createDate);
+		objectOutput.writeLong(modifiedDate);
+
+		objectOutput.writeLong(ghRepositoryId);
+
+		if (ghTaskUuid == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(ghTaskUuid);
+		}
+
+		objectOutput.writeBoolean(enabled);
+	}
+
+	public String uuid;
+	public long ghAutomatorTaskId;
+	public long userId;
+	public long createDate;
+	public long modifiedDate;
+	public long ghRepositoryId;
+	public String ghTaskUuid;
+	public boolean enabled;
+}
