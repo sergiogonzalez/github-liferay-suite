@@ -47,56 +47,65 @@ portletURL.setParameter("navigation", navigation);
 	</aui:form>
 </aui:nav-bar>
 
-<%
-List<GitHubRepositoryModelView> gitHubRepositoryModelViews = (List<GitHubRepositoryModelView>)request.getAttribute(GitHubAutomatorWebKeys.GITHUB_REPOSITORY_MODEL_VIEWS);
+<portlet:actionURL name="/github_automator/update_repository_status" var="updateRepositoryStatusURL" />
 
-for (GitHubRepositoryModelView gitHubRepositoryModelView : gitHubRepositoryModelViews) {
-%>
+<aui:form action="<%= updateRepositoryStatusURL %>">
 
-	<div class="card-horizontal list-group-item">
-		<div class="card-row card-row-layout-fixed">
-			<div class="card-col-field" style="width:60px;">
-				<img alt="user-avatar" class="img-responsive img-rounded" src="<%= gitHubRepositoryModelView.getOwnerAvatarURL() %>" />
-			</div>
-			<div class="card-col-content card-col-gutters list-group-item-content">
+	<%
+	List<GitHubRepositoryModelView> gitHubRepositoryModelViews = (List<GitHubRepositoryModelView>)request.getAttribute(GitHubAutomatorWebKeys.GITHUB_REPOSITORY_MODEL_VIEWS);
 
-				<%
-				String repositoryName = HtmlUtil.escape(gitHubRepositoryModelView.getRepositoryName());
-				%>
+	for (GitHubRepositoryModelView gitHubRepositoryModelView : gitHubRepositoryModelViews) {
+	%>
 
-				<h4 title="<%= repositoryName %>">
-					<strong><%= repositoryName %></strong>
-				</h4>
+		<div class="card-horizontal list-group-item">
+			<div class="card-row card-row-layout-fixed">
+				<div class="card-col-field" style="width:60px;">
+					<img alt="user-avatar" class="img-responsive img-rounded" src="<%= gitHubRepositoryModelView.getOwnerAvatarURL() %>" />
+				</div>
+				<div class="card-col-content card-col-gutters list-group-item-content">
 
-				<%
-				String repositoryDescription = HtmlUtil.escape(gitHubRepositoryModelView.getRepositoryDescription());
-				%>
+					<%
+					String repositoryName = HtmlUtil.escape(gitHubRepositoryModelView.getRepositoryName());
+					%>
 
-				<c:if test="<%= Validator.isNotNull(repositoryDescription) %>">
-					<h5 class="text-default truncate-text"><%= repositoryDescription %></h5>
-				</c:if>
+					<h4 title="<%= repositoryName %>">
+						<strong><%= repositoryName %></strong>
+					</h4>
 
-				<div style="margin-bottom: -20px;">
-					<aui:input iconOff="icon-remove" iconOn="icon-ok" label="" labelOff="" labelOn="" name='<%= gitHubRepositoryModelView.getRepositoryId() + "enable" %>' type="toggle-switch" />
+					<%
+					String repositoryDescription = HtmlUtil.escape(gitHubRepositoryModelView.getRepositoryDescription());
+					%>
+
+					<c:if test="<%= Validator.isNotNull(repositoryDescription) %>">
+						<h5 class="text-default truncate-text"><%= repositoryDescription %></h5>
+					</c:if>
+
+					<div style="margin-bottom: -20px;">
+						<aui:input iconOff="icon-remove" iconOn="icon-ok" label="" labelOff="" labelOn="" name='<%= "repositoryStatus--" + gitHubRepositoryModelView.getRepositoryId() + "--" %>' type="toggle-switch" />
+					</div>
+				</div>
+
+				<div class="card-col-field lfr-card-actions-column">
+					<liferay-ui:icon-menu direction="left-side" icon="<%= StringPool.BLANK %>" markupView="lexicon" message="<%= StringPool.BLANK %>" showWhenSingleIcon="<%= true %>" triggerCssClass="text-default">
+						<portlet:actionURL name="/github_automator/add_hook" var="addHookURL">
+							<portlet:param name="name" value="<%= gitHubRepositoryModelView.getRepositoryName() %>" />
+							<portlet:param name="owner" value="<%= gitHubRepositoryModelView.getOwnerLogin() %>" />
+						</portlet:actionURL>
+
+						<liferay-ui:icon
+							message="add-hook"
+							url="<%= addHookURL %>"
+						/>
+					</liferay-ui:icon-menu>
 				</div>
 			</div>
-
-			<div class="card-col-field lfr-card-actions-column">
-				<liferay-ui:icon-menu direction="left-side" icon="<%= StringPool.BLANK %>" markupView="lexicon" message="<%= StringPool.BLANK %>" showWhenSingleIcon="<%= true %>" triggerCssClass="text-default">
-					<portlet:actionURL name="/github_automator/add_hook" var="addHookURL">
-						<portlet:param name="name" value="<%= gitHubRepositoryModelView.getRepositoryName() %>" />
-						<portlet:param name="owner" value="<%= gitHubRepositoryModelView.getOwnerLogin() %>" />
-					</portlet:actionURL>
-
-					<liferay-ui:icon
-						message="add-hook"
-						url="<%= addHookURL %>"
-					/>
-				</liferay-ui:icon-menu>
-			</div>
 		</div>
-	</div>
 
-<%
-}
-%>
+	<%
+	}
+	%>
+
+	<aui:button-row>
+		<aui:button cssClass="btn-lg" type="submit" value="save" />
+	</aui:button-row>
+</aui:form>
