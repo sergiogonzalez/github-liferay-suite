@@ -1,6 +1,53 @@
 <%@ include file="/init.jsp" %>
 
 <%
+String navigation = ParamUtil.getString(request, "navigation", "owner");
+
+PortletURL portletURL = renderResponse.createRenderURL();
+
+portletURL.setParameter("mvcRenderCommandName", "/github_automator/view");
+portletURL.setParameter("navigation", navigation);
+%>
+
+<aui:nav-bar cssClass="collapse-basic-search" markupView="lexicon">
+	<aui:nav cssClass="navbar-nav">
+		<portlet:renderURL var="viewOwnRepositoriesURL" />
+
+		<aui:nav-item
+			href="<%= viewOwnRepositoriesURL %>"
+			label="my-repositories"
+			selected='<%= navigation.equals("owner") %>'
+		/>
+
+		<portlet:renderURL var="viewCollaboratorRepositoriesURL">
+			<portlet:param name="navigation" value="collaborator" />
+		</portlet:renderURL>
+
+		<aui:nav-item
+			href="<%= viewCollaboratorRepositoriesURL %>"
+			label="collaborator-repositories"
+			selected='<%= navigation.equals("collaborator") %>'
+		/>
+
+		<portlet:renderURL var="viewOrganizationMemberRepositoriesURL">
+			<portlet:param name="navigation" value="organization_member" />
+		</portlet:renderURL>
+
+		<aui:nav-item
+			href="<%= viewOrganizationMemberRepositoriesURL %>"
+			label="organization-repositories"
+			selected='<%= navigation.equals("organization_member") %>'
+		/>
+	</aui:nav>
+
+	<aui:form action="<%= portletURL.toString() %>" name="searchFm">
+		<aui:nav-bar-search>
+			<liferay-ui:input-search markupView="lexicon" />
+		</aui:nav-bar-search>
+	</aui:form>
+</aui:nav-bar>
+
+<%
 List<Repository> repositories = (List<Repository>)request.getAttribute(GitHubAutomatorWebKeys.GITHUB_REPOSITORIES);
 
 for (Repository repository : repositories) {

@@ -6,13 +6,16 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.io.IOException;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -77,8 +80,23 @@ public class ViewMVCRenderCommand implements MVCRenderCommand {
 		RepositoryService repositoryService = new RepositoryService(
 			gitHubClient);
 
+		String navigation = ParamUtil.getString(
+			renderRequest, "navigation", "owner");
+
+		Map<String, String> filterData = new HashMap<>();
+
+		if (navigation.equals("owner")) {
+			filterData.put("affiliation", "owner");
+		}
+		else if (navigation.equals("collaborator")) {
+			filterData.put("affiliation", "collaborator");
+		}
+		else if (navigation.equals("organization_member")) {
+			filterData.put("affiliation", "organization_member");
+		}
+
 		try {
-			return repositoryService.getRepositories();
+			return repositoryService.getRepositories(filterData);
 		}
 		catch (IOException ioe) {
 			_log.error("Cannot obtain GitHub repositories");
