@@ -71,10 +71,11 @@ public class GitHubLoginAction extends BaseStrutsAction {
 			HttpSession session = request.getSession();
 
 			String authorizationCode = ParamUtil.getString(request, "code");
+			String state = ParamUtil.getString(request, "state");
 
 			if (Validator.isNotNull(authorizationCode)) {
 				String accessToken = _gitHubAuthorization.getAccessToken(
-					authorizationCode);
+					authorizationCode, state);
 
 				_gitHubAuthorization.saveAccessToken(accessToken, session);
 

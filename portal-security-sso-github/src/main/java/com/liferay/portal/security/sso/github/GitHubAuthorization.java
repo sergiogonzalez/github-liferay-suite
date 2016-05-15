@@ -15,7 +15,7 @@ public interface GitHubAuthorization {
 			HttpSession session, long companyId, String accessToken)
 		throws Exception;
 
-	public String getAccessToken(String code);
+	public String getAccessToken(String code, String state);
 
 	public String getLoginRedirect(String returnRequestUri, List<String> scopes)
 		throws Exception;

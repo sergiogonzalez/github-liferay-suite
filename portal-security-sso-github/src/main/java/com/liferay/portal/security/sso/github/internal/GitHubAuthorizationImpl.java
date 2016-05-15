@@ -3,9 +3,12 @@ package com.liferay.portal.security.sso.github.internal;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.Contact;
+import com.liferay.portal.kernel.model.Ticket;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.UserGroupRole;
+import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.TicketLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.CalendarFactoryUtil;
 import com.liferay.portal.kernel.util.CharPool;
@@ -63,7 +66,23 @@ public class GitHubAuthorizationImpl implements GitHubAuthorization {
 	}
 
 	@Override
-	public String getAccessToken(String code) {
+	public String getAccessToken(String code, String state) {
+		Ticket ticket = _ticketLocalService.fetchTicket(state);
+
+		if (ticket == null) {
+			throw new IllegalArgumentException(
+				"Invalid state parameter. The login request is fake or it" +
+					"took too long to complete the login process.");
+		}
+		else {
+			if (ticket.isExpired()) {
+				throw new IllegalArgumentException(
+					"The login process took too long to complete.");
+			}
+
+			_ticketLocalService.deleteTicket(ticket);
+		}
+
 		String url = HttpUtil.addParameter(
 			"https://github.com/login/oauth/access_token", "client_id",
 			_gitHubAuthorizationConfiguration.clientId());
@@ -107,7 +126,17 @@ public class GitHubAuthorizationImpl implements GitHubAuthorization {
 	public String getLoginRedirect(String returnRequestUri, List<String> scopes)
 		throws Exception {
 
-		StringBundler sb = new StringBundler(7);
+		Long companyId = CompanyThreadLocal.getCompanyId();
+
+		Calendar expirationCalendar = Calendar.getInstance();
+
+		expirationCalendar.add(Calendar.MINUTE, 5);
+
+		Ticket ticket = _ticketLocalService.addDistinctTicket(
+			companyId, GitHubAuthorization.class.getName(), 0, 0,
+			StringPool.BLANK, expirationCalendar.getTime(), null);
+
+		StringBundler sb = new StringBundler(9);
 
 		sb.append("https://github.com/login/oauth/authorize");
 		sb.append("?client_id=");
@@ -116,6 +145,8 @@ public class GitHubAuthorizationImpl implements GitHubAuthorization {
 		sb.append(returnRequestUri);
 		sb.append("&scope=");
 		sb.append(StringUtil.merge(scopes));
+		sb.append("&state=");
+		sb.append(ticket.getKey());
 
 		return sb.toString();
 	}
@@ -296,6 +327,9 @@ public class GitHubAuthorizationImpl implements GitHubAuthorization {
 
 	private volatile GitHubAuthorizationConfiguration
 		_gitHubAuthorizationConfiguration;
+
+	@Reference
+	private TicketLocalService _ticketLocalService;
 
 	@Reference
 	private UserLocalService _userLocalService;

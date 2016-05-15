@@ -33,8 +33,8 @@ public class GitHubSessionAuthorizationImpl implements GitHubAuthorization {
 			session, companyId, authorizationCode);
 	}
 
-	public String getAccessToken(String code) {
-		return gitHubAuthorization.getAccessToken(code);
+	public String getAccessToken(String code, String state) {
+		return gitHubAuthorization.getAccessToken(code, state);
 	}
 
 	public String getLoginRedirect(String returnRequestUri, List<String> scopes)
