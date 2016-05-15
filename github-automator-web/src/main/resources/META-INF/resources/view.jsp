@@ -51,6 +51,7 @@ portletURL.setParameter("navigation", navigation);
 
 <aui:form action="<%= updateRepositoryStatusURL %>">
 	<aui:input name="redirect" type="hidden" value="<%= currentURL %>" />
+
 	<%
 	List<GitHubRepositoryModelView> gitHubRepositoryModelViews = (List<GitHubRepositoryModelView>)request.getAttribute(GitHubAutomatorWebKeys.GITHUB_REPOSITORY_MODEL_VIEWS);
 
@@ -68,8 +69,15 @@ portletURL.setParameter("navigation", navigation);
 					String repositoryName = HtmlUtil.escape(gitHubRepositoryModelView.getRepositoryName());
 					%>
 
+					<portlet:renderURL var="viewRepositoryURL">
+						<portlet:param name="mvcRenderCommandName" value="/github_automator/view_repository" />
+						<portlet:param name="repositoryId" value="<%= String.valueOf(gitHubRepositoryModelView.getRepositoryId()) %>" />
+					</portlet:renderURL>
+
 					<h4 title="<%= repositoryName %>">
-						<strong><%= repositoryName %></strong>
+						<aui:a href="<%= viewRepositoryURL %>">
+							<strong><%= repositoryName %></strong>
+						</aui:a>
 					</h4>
 
 					<%
