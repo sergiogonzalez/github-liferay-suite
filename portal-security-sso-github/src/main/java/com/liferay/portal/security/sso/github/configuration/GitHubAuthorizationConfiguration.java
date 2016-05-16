@@ -24,4 +24,10 @@ public interface GitHubAuthorizationConfiguration {
 	@Meta.AD(deflt = "", description = "client-secret-help", required = false)
 	public String clientSecret();
 
+	@Meta.AD(
+		deflt = "1", description = "clean-expired-authentication-ticket-help",
+		required = false
+	)
+	public int cleanExpiredAuthenticationTicketHourPeriod();
+
 }
