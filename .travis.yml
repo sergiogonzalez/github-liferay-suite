@@ -2,4 +2,4 @@ language: java
 install: /bin/true
 sudo: false
 script:
-- bash -c './gradlew clean compileJava'
+- bash -c './gradlew clean compileJava compileJsp'
