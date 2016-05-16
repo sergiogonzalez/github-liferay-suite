@@ -1,5 +1,7 @@
 # GitHub Liferay Suite
 
+[![Build Status](https://travis-ci.org/sergiogonzalez/github-liferay-suite.svg?branch=master)](https://travis-ci.org/sergiogonzalez/github-liferay-suite)
+
 GitHub Liferay Suite provides a set of GitHub related features on top of [Liferay
 Portal](http://www.liferay.com/community/liferay-projects/liferay-portal).
 

@@ -1,0 +1,5 @@
+language: java
+install: /bin/true
+sudo: false
+script:
+- bash -c './gradlew clean compileJava'
