@@ -71,7 +71,7 @@ public class GitHubAuthorizationImpl implements GitHubAuthorization {
 
 		if (ticket == null) {
 			throw new IllegalArgumentException(
-				"Invalid state parameter. The login request is fake or it" +
+				"Invalid state parameter. The login request is fake or it " +
 					"took too long to complete the login process.");
 		}
 		else {
@@ -132,7 +132,7 @@ public class GitHubAuthorizationImpl implements GitHubAuthorization {
 
 		expirationCalendar.add(Calendar.MINUTE, 5);
 
-		Ticket ticket = _ticketLocalService.addDistinctTicket(
+		Ticket ticket = _ticketLocalService.addTicket(
 			companyId, GitHubAuthorization.class.getName(), 0, 0,
 			StringPool.BLANK, expirationCalendar.getTime(), null);
 
