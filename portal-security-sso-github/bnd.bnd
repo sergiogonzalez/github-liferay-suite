@@ -5,6 +5,9 @@ Export-Package:\
 	com.liferay.portal.security.sso.github,\
 	com.liferay.portal.security.sso.github.configuration,\
 	com.liferay.portal.security.sso.github.constants
--liferay-includeresource:\
+Import-Package:\
+	!org.eclipse.egit.github.core.*,\
+	*
+-includeresource:\
 	@org.eclipse.egit.github.core-*.jar,\
 	@gson-*.jar

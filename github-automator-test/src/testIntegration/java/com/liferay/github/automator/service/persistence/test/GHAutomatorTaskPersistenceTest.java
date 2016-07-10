@@ -144,7 +144,7 @@ public class GHAutomatorTaskPersistenceTest {
 			newGHAutomatorTask.getUuid());
 		Assert.assertEquals(existingGHAutomatorTask.getGhAutomatorTaskId(),
 			newGHAutomatorTask.getGhAutomatorTaskId());
-		Assert.assertEquals(existingGHAutomatorTask.getUserId(),
+		Assert.assertEquals(22,
 			newGHAutomatorTask.getUserId());
 		Assert.assertEquals(Time.getShortTimestamp(
 				existingGHAutomatorTask.getCreateDate()),

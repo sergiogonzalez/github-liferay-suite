@@ -1,5 +1,30 @@
 language: java
 install: /bin/true
 sudo: false
+
+jdk:
+  - oraclejdk8
+  - oraclejdk7
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
+install:
+  - mkdir ../bundles
+  - wget https://sourceforge.net/projects/lportal/files/Liferay%20Portal/7.0.1%20GA2/liferay-ce-portal-tomcat-7.0-ga2-20160610113014153.zip/download
+  - unzip download
+  - mv liferay-ce-portal-7.0-ga2/* ../bundles
+  - ./gradlew setupTestableTomcat
+
 script:
-- bash -c './gradlew clean compileJava compileJsp'
+- ../bundles/tomcat-8.0.32/bin/startup.sh
+- ./gradlew clean deploy
+- cd github-automator-test 
+- ../gradlew clean
+- ../gradlew testIntegration
+- ../../bundles/tomcat-8.0.32/bin/shutdown.sh
