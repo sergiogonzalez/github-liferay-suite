@@ -1,3 +1,17 @@
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
 package com.liferay.github.automator.service.persistence.impl;
 
 import aQute.bnd.annotation.ProviderType;
@@ -17,7 +31,6 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.SetUtil;
@@ -46,7 +59,7 @@ import java.util.Set;
  * Caching information and settings can be found in <code>portal.properties</code>
  * </p>
  *
- * @author Sergio González
+ * @author Brian Wing Shun Chan
  * @see GHAutomatorTaskPersistence
  * @see com.liferay.github.automator.service.persistence.GHAutomatorTaskUtil
  * @generated
@@ -3687,12 +3700,14 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	 */
 	@Override
 	public GHAutomatorTask fetchByPrimaryKey(Serializable primaryKey) {
-		GHAutomatorTask ghAutomatorTask = (GHAutomatorTask)entityCache.getResult(GHAutomatorTaskModelImpl.ENTITY_CACHE_ENABLED,
+		Serializable serializable = entityCache.getResult(GHAutomatorTaskModelImpl.ENTITY_CACHE_ENABLED,
 				GHAutomatorTaskImpl.class, primaryKey);
 
-		if (ghAutomatorTask == _nullGHAutomatorTask) {
+		if (serializable == nullModel) {
 			return null;
 		}
+
+		GHAutomatorTask ghAutomatorTask = (GHAutomatorTask)serializable;
 
 		if (ghAutomatorTask == null) {
 			Session session = null;
@@ -3708,8 +3723,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 				}
 				else {
 					entityCache.putResult(GHAutomatorTaskModelImpl.ENTITY_CACHE_ENABLED,
-						GHAutomatorTaskImpl.class, primaryKey,
-						_nullGHAutomatorTask);
+						GHAutomatorTaskImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
@@ -3763,18 +3777,20 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			GHAutomatorTask ghAutomatorTask = (GHAutomatorTask)entityCache.getResult(GHAutomatorTaskModelImpl.ENTITY_CACHE_ENABLED,
+			Serializable serializable = entityCache.getResult(GHAutomatorTaskModelImpl.ENTITY_CACHE_ENABLED,
 					GHAutomatorTaskImpl.class, primaryKey);
 
-			if (ghAutomatorTask == null) {
-				if (uncachedPrimaryKeys == null) {
-					uncachedPrimaryKeys = new HashSet<Serializable>();
-				}
+			if (serializable != nullModel) {
+				if (serializable == null) {
+					if (uncachedPrimaryKeys == null) {
+						uncachedPrimaryKeys = new HashSet<Serializable>();
+					}
 
-				uncachedPrimaryKeys.add(primaryKey);
-			}
-			else {
-				map.put(primaryKey, ghAutomatorTask);
+					uncachedPrimaryKeys.add(primaryKey);
+				}
+				else {
+					map.put(primaryKey, (GHAutomatorTask)serializable);
+				}
 			}
 		}
 
@@ -3816,7 +3832,7 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
 				entityCache.putResult(GHAutomatorTaskModelImpl.ENTITY_CACHE_ENABLED,
-					GHAutomatorTaskImpl.class, primaryKey, _nullGHAutomatorTask);
+					GHAutomatorTaskImpl.class, primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -4059,23 +4075,4 @@ public class GHAutomatorTaskPersistenceImpl extends BasePersistenceImpl<GHAutoma
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
 				"uuid"
 			});
-	private static final GHAutomatorTask _nullGHAutomatorTask = new GHAutomatorTaskImpl() {
-			@Override
-			public Object clone() {
-				return this;
-			}
-
-			@Override
-			public CacheModel<GHAutomatorTask> toCacheModel() {
-				return _nullGHAutomatorTaskCacheModel;
-			}
-		};
-
-	private static final CacheModel<GHAutomatorTask> _nullGHAutomatorTaskCacheModel =
-		new CacheModel<GHAutomatorTask>() {
-			@Override
-			public GHAutomatorTask toEntityModel() {
-				return _nullGHAutomatorTask;
-			}
-		};
 }

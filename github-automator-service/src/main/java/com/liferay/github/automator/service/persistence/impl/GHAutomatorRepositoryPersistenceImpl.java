@@ -1,3 +1,17 @@
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
 package com.liferay.github.automator.service.persistence.impl;
 
 import aQute.bnd.annotation.ProviderType;
@@ -17,7 +31,6 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.SetUtil;
@@ -46,7 +59,7 @@ import java.util.Set;
  * Caching information and settings can be found in <code>portal.properties</code>
  * </p>
  *
- * @author Sergio González
+ * @author Brian Wing Shun Chan
  * @see GHAutomatorRepositoryPersistence
  * @see com.liferay.github.automator.service.persistence.GHAutomatorRepositoryUtil
  * @generated
@@ -1782,12 +1795,14 @@ public class GHAutomatorRepositoryPersistenceImpl extends BasePersistenceImpl<GH
 	 */
 	@Override
 	public GHAutomatorRepository fetchByPrimaryKey(Serializable primaryKey) {
-		GHAutomatorRepository ghAutomatorRepository = (GHAutomatorRepository)entityCache.getResult(GHAutomatorRepositoryModelImpl.ENTITY_CACHE_ENABLED,
+		Serializable serializable = entityCache.getResult(GHAutomatorRepositoryModelImpl.ENTITY_CACHE_ENABLED,
 				GHAutomatorRepositoryImpl.class, primaryKey);
 
-		if (ghAutomatorRepository == _nullGHAutomatorRepository) {
+		if (serializable == nullModel) {
 			return null;
 		}
+
+		GHAutomatorRepository ghAutomatorRepository = (GHAutomatorRepository)serializable;
 
 		if (ghAutomatorRepository == null) {
 			Session session = null;
@@ -1803,8 +1818,7 @@ public class GHAutomatorRepositoryPersistenceImpl extends BasePersistenceImpl<GH
 				}
 				else {
 					entityCache.putResult(GHAutomatorRepositoryModelImpl.ENTITY_CACHE_ENABLED,
-						GHAutomatorRepositoryImpl.class, primaryKey,
-						_nullGHAutomatorRepository);
+						GHAutomatorRepositoryImpl.class, primaryKey, nullModel);
 				}
 			}
 			catch (Exception e) {
@@ -1858,18 +1872,20 @@ public class GHAutomatorRepositoryPersistenceImpl extends BasePersistenceImpl<GH
 		Set<Serializable> uncachedPrimaryKeys = null;
 
 		for (Serializable primaryKey : primaryKeys) {
-			GHAutomatorRepository ghAutomatorRepository = (GHAutomatorRepository)entityCache.getResult(GHAutomatorRepositoryModelImpl.ENTITY_CACHE_ENABLED,
+			Serializable serializable = entityCache.getResult(GHAutomatorRepositoryModelImpl.ENTITY_CACHE_ENABLED,
 					GHAutomatorRepositoryImpl.class, primaryKey);
 
-			if (ghAutomatorRepository == null) {
-				if (uncachedPrimaryKeys == null) {
-					uncachedPrimaryKeys = new HashSet<Serializable>();
-				}
+			if (serializable != nullModel) {
+				if (serializable == null) {
+					if (uncachedPrimaryKeys == null) {
+						uncachedPrimaryKeys = new HashSet<Serializable>();
+					}
 
-				uncachedPrimaryKeys.add(primaryKey);
-			}
-			else {
-				map.put(primaryKey, ghAutomatorRepository);
+					uncachedPrimaryKeys.add(primaryKey);
+				}
+				else {
+					map.put(primaryKey, (GHAutomatorRepository)serializable);
+				}
 			}
 		}
 
@@ -1912,8 +1928,7 @@ public class GHAutomatorRepositoryPersistenceImpl extends BasePersistenceImpl<GH
 
 			for (Serializable primaryKey : uncachedPrimaryKeys) {
 				entityCache.putResult(GHAutomatorRepositoryModelImpl.ENTITY_CACHE_ENABLED,
-					GHAutomatorRepositoryImpl.class, primaryKey,
-					_nullGHAutomatorRepository);
+					GHAutomatorRepositoryImpl.class, primaryKey, nullModel);
 			}
 		}
 		catch (Exception e) {
@@ -2156,23 +2171,4 @@ public class GHAutomatorRepositoryPersistenceImpl extends BasePersistenceImpl<GH
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
 				"uuid"
 			});
-	private static final GHAutomatorRepository _nullGHAutomatorRepository = new GHAutomatorRepositoryImpl() {
-			@Override
-			public Object clone() {
-				return this;
-			}
-
-			@Override
-			public CacheModel<GHAutomatorRepository> toCacheModel() {
-				return _nullGHAutomatorRepositoryCacheModel;
-			}
-		};
-
-	private static final CacheModel<GHAutomatorRepository> _nullGHAutomatorRepositoryCacheModel =
-		new CacheModel<GHAutomatorRepository>() {
-			@Override
-			public GHAutomatorRepository toEntityModel() {
-				return _nullGHAutomatorRepository;
-			}
-		};
 }
