@@ -21,7 +21,7 @@ install:
   - mv liferay-ce-portal-7.0-ga2/* ../bundles
   - ./gradlew setupTestableTomcat
 
-  after_success:
+after_success:
   - ./gradlew jacocoTestReport coveralls
 
 script:
